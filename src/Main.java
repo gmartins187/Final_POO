@@ -2,10 +2,11 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Commands();
+        System.out.println(Commands());
     }
 
-    private static void Commands() {
+    private static int Commands() {
         Scanner in = new Scanner(System.in);
+       return in.nextInt();
     }
 }
