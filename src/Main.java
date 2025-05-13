@@ -6,6 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         Commands();
+        int i;
     }
 
     private static void Commands() {
