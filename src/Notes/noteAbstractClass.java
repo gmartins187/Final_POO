@@ -1,6 +1,6 @@
 package Notes;
 
-public abstract class noteAbstractClass {
+public abstract class noteAbstractClass implements Note{
 
     private final String ID;
 

@@ -1,4 +1,9 @@
 package Notes;
 
-public class permanentNoteClass {
+public class permanentNoteClass extends noteAbstractClass implements PermanentNote{
+
+
+    public permanentNoteClass(String ID) {
+        super(ID);
+    }
 }

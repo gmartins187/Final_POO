@@ -1,4 +1,8 @@
 package Notes;
 
-public class literaryNoteClass {
+public class literaryNoteClass extends noteAbstractClass implements LiteraryNote{
+
+    public literaryNoteClass(String ID) {
+        super(ID);
+    }
 }

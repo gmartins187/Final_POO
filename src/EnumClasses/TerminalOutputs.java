@@ -15,8 +15,9 @@ public enum TerminalOutputs {
         notes - lists all notes of a given type last edited within a given time interval
         delete - deletes a note
         help - shows the available commands
-        exit - terminates the execution of the program
-        """),
+        exit - terminates the execution of the program"""),
+
+    UNKNOWN_COMMAND("Unknown command!"),
     BYE("Bye!");
 
     public final String output;
