@@ -7,6 +7,6 @@ public class Main {
 
     private static int Commands() {
         Scanner in = new Scanner(System.in);
-       return in.nextInt();
+        return in.nextInt();
     }
 }
