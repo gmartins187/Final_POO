@@ -1,12 +1,19 @@
+import EnumClasses.*;
 import java.util.Scanner;
 
 public class Main {
+
+
     public static void main(String[] args) {
-        System.out.println(Commands());
+        Commands();
     }
 
-    private static int Commands() {
+    private static void Commands() {
         Scanner in = new Scanner(System.in);
-        return in.nextInt();
+        String command;
+        do{
+            command = in.next();
+        }while (!command.equals(commands.EXIT.command));
+        in.close();
     }
 }
