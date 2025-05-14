@@ -17,9 +17,10 @@ public enum TerminalOutputs {
         help - shows the available commands
         exit - terminates the execution of the program"""),
 
+    CREATED(" created successfully with links to "),
     INVALID_DATE("Invalid date!"),
     TIME_TRAVEL("No time travelling!"),
-    ALREADY_EXISTS("already exists!"),
+    ALREADY_EXISTS(" already exists!"),
     UNKNOWN("Unknown command. Type help to see available commands."),
     BYE("Bye!");
 
