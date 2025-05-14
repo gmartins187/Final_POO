@@ -15,7 +15,12 @@ public enum NotesTypes {
     }
     public static Note CreateNote(String kind, String content, dateClass date) {
         switch (kind){
-            case LITERARY.NOTE_TYPE -> return new LiteraryNote(content, date);
+            case LITERARY.NOTE_TYPE -> {
+                return new literaryNoteClass(content, date);
+            }
+            case PERMANENT.NOTE_TYPE -> {
+                return new permanentNoteClass(content, date);
+            }
         }
     }
 }
