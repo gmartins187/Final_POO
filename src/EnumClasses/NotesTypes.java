@@ -17,6 +17,5 @@ public enum NotesTypes {
         if(kind.equalsIgnoreCase(LITERARY.NOTE_TYPE)){
             return new literaryNoteClass(content, date);
         } else return new permanentNoteClass(content, date);
-        int i;
     }
 }
