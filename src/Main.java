@@ -1,6 +1,9 @@
 import EnumClasses.*;
 import App.*;
-import Notes.*;
+import Exceptions.ExistentID;
+import Exceptions.InvalidDate;
+import Exceptions.TimeTravelling;
+
 import java.util.Scanner;
 
 /**
@@ -38,23 +41,40 @@ public class Main {
             switch (command){
                 case HELP -> System.out.println(TerminalOutputs.HELP.output);
                 case CREATE -> createNote(app, in);
-                case READ ->
-                case UPDATE ->
-                case LINKS ->
-                case TAG ->
-                case UNTAG ->
-                case TAGS ->
-                case TAGGED ->
-                case TRENDING ->
-                case NOTES ->
-                case DELETE ->
-                default ->
+                //case READ ->
+                //case UPDATE ->
+                //case LINKS ->
+                //case TAG ->
+                //case UNTAG ->
+                //case TAGS ->
+                //case TAGGED ->
+                //case TRENDING ->
+                //case NOTES ->
+                //case DELETE ->
+                default -> System.out.println(TerminalOutputs.UNKNOWN.output);
             }
         } while (!command.equalsIgnoreCase(EXIT));
         in.close();
     }
 
     private static void createNote(NotesApp app, Scanner in) {
-
+        String ID = "";
+        try {
+            String kind = in.next();
+            int year = in.nextInt();
+            int month = in.nextInt();
+            int day = in.nextInt();
+            in.nextLine();
+            ID = in.nextLine();
+            String content = in.nextLine();
+            dateClass date = new dateClass(day, month, year);
+            app.createNote(kind, ID, content, date);
+        } catch(InvalidDate e){
+            System.out.println(TerminalOutputs.INVALID_DATE.output);
+        } catch (TimeTravelling e){
+            System.out.println(TerminalOutputs.TIME_TRAVEL.output);
+        } catch (ExistentID e) {
+            System.out.println(ID + TerminalOutputs.ALREADY_EXISTS.output);
+        }
     }
 }

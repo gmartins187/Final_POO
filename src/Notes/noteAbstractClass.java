@@ -1,14 +1,21 @@
 package Notes;
+import App.*;
 
 public abstract class noteAbstractClass implements Note{
 
-    private final String ID;
+    private final dateClass date;
+    private final String content;
 
-    public noteAbstractClass(String ID) {
-        this.ID = ID;
+    public noteAbstractClass(dateClass date, String content) {
+        this.date = date;
+        this.content = content;
     }
 
-    public String getID() {
-        return ID;
+    public String getContent() {
+        return content;
+    }
+
+    public dateClass getDate() {
+        return date;
     }
 }
