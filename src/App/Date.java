@@ -4,23 +4,16 @@ import Exceptions.*;
 public interface Date {
 
     /**
-     * Checks if the date is valid. in this case if is a year
-     * of the calendar
-     * @param day the day of the month
-     * @param month the month of the year
+     * Checks if the date is valid. in this case if is a year of the calendar
      * @return true if the date is valid, false otherwise
      */
-    boolean isValid(int day, int month);
+    boolean isValid();
 
     /**
      * Checks if the date is before the current date
-     * @param day the day of the month
-     * @param month the month of the year
-     * @param year the year
-     * @param current the current date
-     * @return true if the date is before the current date, false otherwise
+     * @param date the date to check
      */
-    boolean isBefore(int day, int month, int year, dateClass current);
+    boolean isBefore(dateClass date);
 
     /**
      * Updates the date
@@ -31,13 +24,20 @@ public interface Date {
     void updateDate(int day, int month, int year);
 
     /**
-     * Checks if the date is valid and if it is before the current date
-     * @param day the day of the month
-     * @param month the month of the year
-     * @param year the year
-     * @param current the current date
-     * @throws InvalidDate if the date is invalid
-     * @throws TimeTravelling if the date is before the current date
+     * Gets the day of the date
+     * @return the day of the date
      */
-    void validityCheck(int day, int month, int year, dateClass current) throws InvalidDate, TimeTravelling;
+    int getDay();
+
+    /**
+     * Gets the month of the date
+     * @return the month of the date
+     */
+    int getMonth();
+
+    /**
+     * Gets the year of the date
+     * @return the year of the date
+     */
+    int getYear();
 }

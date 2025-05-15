@@ -3,6 +3,8 @@ import App.*;
 import Exceptions.*;
 import java.util.Scanner;
 
+//se a data estiver errada nao se regista
+
 /**
  * @author Andre Amante 70945 a.amante@campus.fct.unl
  * @author Guilherme Martins 71003 gh.martins@campus.fct.unl
@@ -68,9 +70,8 @@ public class Main {
             in.nextLine();
             ID = in.nextLine();
             String content = in.nextLine();
-            dateClass date = new dateClass(day, month, year);
-            date.validityCheck(day, month, year, app.getCurrentDate());
-            app.createNote(kind, ID, content, date);
+
+            app.createNote(kind, ID, content, new dateClass(day, month, year));
         } catch(InvalidDate e){
             System.out.println(TerminalOutputs.INVALID_DATE.output);
         } catch (TimeTravelling e) {
@@ -78,7 +79,5 @@ public class Main {
         } catch (ExistentID e) {
             System.out.println(ID + TerminalOutputs.ALREADY_EXISTS.output);
         }
-
-        app.updateCurrentDate(day, month, year);
     }
 }

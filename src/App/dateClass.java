@@ -22,17 +22,8 @@ public class dateClass implements Date{
     }
 
     @Override
-    public void validityCheck(int day, int month, int year, dateClass current) throws InvalidDate, TimeTravelling {
-        if(isValid(day, month)) {
-            if(isBefore(day, month, year, current))
-                throw new TimeTravelling();
-        } else throw new InvalidDate();
-    }
-
-    @Override
-    public boolean isValid(int day, int month) {
-        switch (month)
-        {
+    public boolean isValid() {
+        switch (month){
             case 1, 3, 5, 7, 8, 10, 12 -> {
                 return day <= 31;
             }
@@ -40,25 +31,28 @@ public class dateClass implements Date{
                 return day <= 30;
             }
             case 2 -> {
-                return day <= 28;
+                if (year % 4 == 0) {
+                    return day <= 29;
+                } else {
+                    return day <= 28;
+                }
             }
             default -> {
                 return false;
             }
         }
-
     }
 
     @Override
-    public boolean isBefore(int day, int month, int year, dateClass current) {
-        if (current != null) {
-            if (current.year > year) {
+    public boolean isBefore(dateClass current) {
+        if(current != null) {
+            if (year < current.year) {
                 return true;
-            } else if (current.year == year) {
-                if (current.month > month) {
+            } else if (year == current.year) {
+                if (month < current.month) {
                     return true;
-                } else if (current.month == month) {
-                    return current.day > day;
+                } else if (month == current.month) {
+                    return day < current.day;
                 }
             }
         }
@@ -70,5 +64,20 @@ public class dateClass implements Date{
         this.year = year;
         this.month = month;
         this.day = day;
+    }
+
+    @Override
+    public int getDay() {
+        return day;
+    }
+
+    @Override
+    public int getMonth() {
+        return month;
+    }
+
+    @Override
+    public int getYear() {
+        return year;
     }
 }
