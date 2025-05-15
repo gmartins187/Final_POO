@@ -64,14 +64,18 @@ public class Main {
             in.nextLine();
             ID = in.nextLine();
             String content = in.nextLine();
-            dateClass date = new dateClass(day, month, year, app.getCurrentDate(), app);
+
+            dateClass date = new dateClass(day, month, year);
+            date.validityCheck(day, month, year, app.getCurrentDate());
+            app.updateCurrentDate(day, month, year);
+
             app.createNote(kind, ID, content, date);
         } catch(InvalidDate e){
             System.out.println(TerminalOutputs.INVALID_DATE.output);
-        } catch (TimeTravelling e){
-            System.out.println(TerminalOutputs.TIME_TRAVEL.output);
         } catch (ExistentID e) {
             System.out.println(ID + TerminalOutputs.ALREADY_EXISTS.output);
+        } catch (TimeTravelling e) {
+            System.out.println(TerminalOutputs.TIME_TRAVEL.output);
         }
     }
 }

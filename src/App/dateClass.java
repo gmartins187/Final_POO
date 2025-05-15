@@ -3,9 +3,9 @@ import Exceptions.*;
 
 public class dateClass implements Date{
 
-    private static int day;
-    private static int month;
-    private static int year;
+    private int day;
+    private int month;
+    private int year;
 
     /**
      * Constructor for dateClass
@@ -15,8 +15,14 @@ public class dateClass implements Date{
      * @throws InvalidDate if the date is invalid
      * @throws TimeTravelling if the date is before the current date
      */
-    public dateClass(int day, int month, int year, dateClass current, notesAppClass app) throws InvalidDate, TimeTravelling {
-        app.updateCurrentDate(day, month, year);
+    public dateClass(int day, int month, int year) {
+        this.day = day;
+        this.month = month;
+        this.year = year;
+    }
+
+    @Override
+    public void validityCheck(int day, int month, int year, dateClass current) throws InvalidDate, TimeTravelling {
         if(isValid(day, month)) {
             if(isBefore(day, month, year, current))
                 throw new TimeTravelling();
@@ -45,7 +51,7 @@ public class dateClass implements Date{
 
     @Override
     public boolean isBefore(int day, int month, int year, dateClass current) {
-        if (current.year != 0) {
+        if (current != null) {
             if (current.year > year) {
                 return true;
             } else if (current.year == year) {
@@ -57,5 +63,12 @@ public class dateClass implements Date{
             }
         }
         return false;
+    }
+
+    @Override
+    public void updateDate(int day, int month, int year) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
     }
 }

@@ -33,4 +33,11 @@ public class notesAppClass implements NotesApp{
     public dateClass getCurrentDate() {
         return currentDate;
     }
+
+    @Override
+    public void updateCurrentDate(int day, int month, int year) {
+        if(currentDate == null)
+            currentDate = new dateClass(day, month, year);
+        else currentDate.updateDate(day, month, year);
+    }
 }
