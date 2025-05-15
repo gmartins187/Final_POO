@@ -19,4 +19,18 @@ public interface NotesApp {
      * @return true if the note exists, false otherwise
      */
     boolean hasNote(String id);
+
+    /**
+     * Gets the current date.
+     * @return the current date
+     */
+    dateClass getCurrentDate();
+
+    /**
+     * update the current date stored in app
+     * @param day
+     * @param month
+     * @param year
+     */
+    void updateCurrentDate(int day, int month, int year);
 }

@@ -15,15 +15,12 @@ public class dateClass implements Date{
      * @throws InvalidDate if the date is invalid
      * @throws TimeTravelling if the date is before the current date
      */
-    public dateClass(int day, int month, int year) throws InvalidDate, TimeTravelling {
+    public dateClass(int day, int month, int year, dateClass current, notesAppClass app) throws InvalidDate, TimeTravelling {
+        app.updateCurrentDate(day, month, year);
         if(isValid(day, month)) {
-            if(!isBefore(day, month, year)) {
-            } else throw new TimeTravelling();
+            if(isBefore(day, month, year, current))
+                throw new TimeTravelling();
         } else throw new InvalidDate();
-
-        dateClass.day = day;
-        dateClass.month = month;
-        dateClass.year = year;
     }
 
     @Override
@@ -47,15 +44,15 @@ public class dateClass implements Date{
     }
 
     @Override
-    public boolean isBefore(int day, int month, int year) {
-        if (dateClass.year != 0) {
-            if (dateClass.year > year) {
+    public boolean isBefore(int day, int month, int year, dateClass current) {
+        if (current.year != 0) {
+            if (current.year > year) {
                 return true;
-            } else if (dateClass.year == year) {
-                if (dateClass.month > month) {
+            } else if (current.year == year) {
+                if (current.month > month) {
                     return true;
-                } else if (dateClass.month == month) {
-                    return dateClass.day > day;
+                } else if (current.month == month) {
+                    return current.day > day;
                 }
             }
         }

@@ -16,7 +16,8 @@ public interface Date {
      * @param day the day of the month
      * @param month the month of the year
      * @param year the year
+     * @param current the current date
      * @return true if the date is before the current date, false otherwise
      */
-    boolean isBefore(int day, int month, int year);
+    boolean isBefore(int day, int month, int year, dateClass current);
 }

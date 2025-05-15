@@ -31,7 +31,7 @@ public class Main {
 
     private static void Commands() {
         Scanner in = new Scanner(System.in);
-        NotesApp app = new notesAppClass();
+        notesAppClass app = new notesAppClass();
         String command;
         do{
             command = in.next();
@@ -54,7 +54,7 @@ public class Main {
         in.close();
     }
 
-    private static void createNote(NotesApp app, Scanner in) {
+    private static void createNote(notesAppClass app, Scanner in) {
         String ID = "";
         try {
             String kind = in.next();
@@ -64,7 +64,7 @@ public class Main {
             in.nextLine();
             ID = in.nextLine();
             String content = in.nextLine();
-            dateClass date = new dateClass(day, month, year);
+            dateClass date = new dateClass(day, month, year, app.getCurrentDate(), app);
             app.createNote(kind, ID, content, date);
         } catch(InvalidDate e){
             System.out.println(TerminalOutputs.INVALID_DATE.output);

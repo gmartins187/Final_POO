@@ -9,7 +9,7 @@ import Notes.*;
 public class notesAppClass implements NotesApp{
 
     private final HashMap<String, Note> notes;
-
+    private dateClass currentDate;
 
     public notesAppClass() {
         notes = new HashMap<>();
@@ -27,5 +27,10 @@ public class notesAppClass implements NotesApp{
     @Override
     public boolean hasNote(String id) {
         return notes.containsKey(id);
+    }
+
+    @Override
+    public dateClass getCurrentDate() {
+        return currentDate;
     }
 }
