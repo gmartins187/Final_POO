@@ -22,6 +22,22 @@ public class dateClass implements Date{
     }
 
     @Override
+    public int getDay() {
+        return day;
+    }
+
+    @Override
+    public int getMonth() {
+        return month;
+    }
+
+    @Override
+    public int getYear() {
+        return year;
+    }
+
+
+    @Override
     public boolean isValid() {
         switch (month){
             case 1, 3, 5, 7, 8, 10, 12 -> {
@@ -57,27 +73,5 @@ public class dateClass implements Date{
             }
         }
         return false;
-    }
-
-    @Override
-    public void updateDate(int day, int month, int year) {
-        this.year = year;
-        this.month = month;
-        this.day = day;
-    }
-
-    @Override
-    public int getDay() {
-        return day;
-    }
-
-    @Override
-    public int getMonth() {
-        return month;
-    }
-
-    @Override
-    public int getYear() {
-        return year;
     }
 }

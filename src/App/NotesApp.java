@@ -12,25 +12,4 @@ public interface NotesApp {
      * @throws ExistentID if the note already exists
      */
     void createNote(String kind, String id, String content, dateClass date);
-
-    /**
-     * if note with ID exists
-     * @param id unique identifier of the note
-     * @return true if the note exists, false otherwise
-     */
-    boolean hasNote(String id);
-
-    /**
-     * Gets the current date.
-     * @return the current date
-     */
-    dateClass getCurrentDate();
-
-    /**
-     * update the current date stored in app
-     * @param day
-     * @param month
-     * @param year
-     */
-    void updateCurrentDate(int day, int month, int year);
 }

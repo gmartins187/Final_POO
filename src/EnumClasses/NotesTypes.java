@@ -16,6 +16,9 @@ public enum NotesTypes {
     public static Note CreateNote(String kind, String content, dateClass date) {
         if(kind.equalsIgnoreCase(LITERARY.NOTE_TYPE)){
             return new literaryNoteClass(content, date);
-        } else return new permanentNoteClass(content, date);
+        } else if(kind.equalsIgnoreCase(PERMANENT.NOTE_TYPE)){
+            return new permanentNoteClass(content, date);
+        }
+        else return null;
     }
 }

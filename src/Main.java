@@ -3,7 +3,7 @@ import App.*;
 import Exceptions.*;
 import java.util.Scanner;
 
-//se a data estiver errada nao se regista
+//getLinks needs checking
 
 /**
  * @author Andre Amante 70945 a.amante@campus.fct.unl
@@ -31,6 +31,7 @@ public class Main {
         Commands();
     }
 
+
     private static void Commands() {
         Scanner in = new Scanner(System.in);
         notesAppClass app = new notesAppClass();
@@ -39,7 +40,7 @@ public class Main {
             switch (command){
                 case HELP -> System.out.println(TerminalOutputs.HELP.output);
                 case CREATE -> createNote(app, in);
-                //case READ ->
+                case READ -> getContent(app, in);
                 //case UPDATE ->
                 //case LINKS ->
                 //case TAG ->
@@ -57,16 +58,14 @@ public class Main {
         in.close();
     }
 
+
     private static void createNote(notesAppClass app, Scanner in) {
         String ID = "";
-        int day = 0;
-        int month = 0;
-        int year = 0;
         try {
             String kind = in.next();
-            year = in.nextInt();
-            month = in.nextInt();
-            day = in.nextInt();
+            int year = in.nextInt();
+            int month = in.nextInt();
+            int day = in.nextInt();
             in.nextLine();
             ID = in.nextLine();
             String content = in.nextLine();
@@ -79,5 +78,8 @@ public class Main {
         } catch (ExistentID e) {
             System.out.println(ID + TerminalOutputs.ALREADY_EXISTS.output);
         }
+    }
+
+    private static void getContent(notesAppClass app, Scanner in) {
     }
 }

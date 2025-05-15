@@ -16,14 +16,6 @@ public interface Date {
     boolean isBefore(dateClass date);
 
     /**
-     * Updates the date
-     * @param day the day of the month
-     * @param month the month of the year
-     * @param year the year
-     */
-    void updateDate(int day, int month, int year);
-
-    /**
      * Gets the day of the date
      * @return the day of the date
      */

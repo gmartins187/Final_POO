@@ -7,6 +7,7 @@ public abstract class noteAbstractClass implements Note{
 
     private final dateClass date;
     private final String content;
+    private int numOfLinks;
 
     private final HashMap<String, Note> linkedNotes;
 
@@ -28,7 +29,6 @@ public abstract class noteAbstractClass implements Note{
 
     @Override
     public int getLinks(HashMap<String, Note> notes) {
-        int numOfLinks = 0;
         StringBuilder tmpNote;
         for (int i = 0; i < content.length(); i++) {
             if (content.charAt(i) == '[') {
