@@ -64,7 +64,7 @@ public class Main {
             in.nextLine();
             ID = in.nextLine();
             String content = in.nextLine();
-            dateClass date = new dateClass(day, month, year, app.getCurrentDate());
+            dateClass date = new dateClass(day, month, year);
             app.createNote(kind, ID, content, date);
         } catch(InvalidDate e){
             System.out.println(TerminalOutputs.INVALID_DATE.output);

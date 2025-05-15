@@ -12,18 +12,18 @@ public class dateClass implements Date{
      * @param day the day of the month
      * @param month the month of the year
      * @param year the year
-     * @param currentDate the current date
      * @throws InvalidDate if the date is invalid
      * @throws TimeTravelling if the date is before the current date
      */
-    public dateClass(int day, int month, int year, dateClass currentDate) throws InvalidDate, TimeTravelling {
+    public dateClass(int day, int month, int year) throws InvalidDate, TimeTravelling {
         if(isValid(day, month)) {
-            if(!isBefore(day, month, year, currentDate)) {
-                dateClass.day = day;
-                dateClass.month = month;
-                dateClass.year = year;
+            if(!isBefore(day, month, year)) {
             } else throw new TimeTravelling();
         } else throw new InvalidDate();
+
+        dateClass.day = day;
+        dateClass.month = month;
+        dateClass.year = year;
     }
 
     @Override
@@ -47,15 +47,15 @@ public class dateClass implements Date{
     }
 
     @Override
-    public boolean isBefore(int day, int month, int year, dateClass currentDate) {
-        if (currentDate != null) {
-            if (currentDate.year < year) {
+    public boolean isBefore(int day, int month, int year) {
+        if (dateClass.year != 0) {
+            if (dateClass.year > year) {
                 return true;
-            } else if (currentDate.year == year) {
-                if (currentDate.month < month) {
+            } else if (dateClass.year == year) {
+                if (dateClass.month > month) {
                     return true;
-                } else if (currentDate.month == month) {
-                    return currentDate.day < day;
+                } else if (dateClass.month == month) {
+                    return dateClass.day > day;
                 }
             }
         }
