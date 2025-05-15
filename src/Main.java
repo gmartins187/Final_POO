@@ -32,9 +32,8 @@ public class Main {
     private static void Commands() {
         Scanner in = new Scanner(System.in);
         notesAppClass app = new notesAppClass();
-        String command;
+        String command = in.next();
         do{
-            command = in.next();
             switch (command){
                 case HELP -> System.out.println(TerminalOutputs.HELP.output);
                 case CREATE -> createNote(app, in);
@@ -50,32 +49,36 @@ public class Main {
                 //case DELETE ->
                 default -> System.out.println(TerminalOutputs.UNKNOWN.output);
             }
+            command = in.next();
         } while (!command.equalsIgnoreCase(EXIT));
+        System.out.print(TerminalOutputs.BYE.output);
         in.close();
     }
 
     private static void createNote(notesAppClass app, Scanner in) {
         String ID = "";
+        int day = 0;
+        int month = 0;
+        int year = 0;
         try {
             String kind = in.next();
-            int year = in.nextInt();
-            int month = in.nextInt();
-            int day = in.nextInt();
+            year = in.nextInt();
+            month = in.nextInt();
+            day = in.nextInt();
             in.nextLine();
             ID = in.nextLine();
             String content = in.nextLine();
-
             dateClass date = new dateClass(day, month, year);
             date.validityCheck(day, month, year, app.getCurrentDate());
-            app.updateCurrentDate(day, month, year);
-
             app.createNote(kind, ID, content, date);
         } catch(InvalidDate e){
             System.out.println(TerminalOutputs.INVALID_DATE.output);
-        } catch (ExistentID e) {
-            System.out.println(ID + TerminalOutputs.ALREADY_EXISTS.output);
         } catch (TimeTravelling e) {
             System.out.println(TerminalOutputs.TIME_TRAVEL.output);
+        } catch (ExistentID e) {
+            System.out.println(ID + TerminalOutputs.ALREADY_EXISTS.output);
         }
+
+        app.updateCurrentDate(day, month, year);
     }
 }
