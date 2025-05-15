@@ -3,9 +3,9 @@ import Exceptions.*;
 
 public class dateClass implements Date{
 
-    private final int day;
-    private final int month;
-    private final int year;
+    private static int day;
+    private static int month;
+    private static int year;
 
     /**
      * Constructor for dateClass
@@ -19,9 +19,9 @@ public class dateClass implements Date{
     public dateClass(int day, int month, int year, dateClass currentDate) throws InvalidDate, TimeTravelling {
         if(isValid(day, month)) {
             if(!isBefore(day, month, year, currentDate)) {
-                this.day = day;
-                this.month = month;
-                this.year = year;
+                dateClass.day = day;
+                dateClass.month = month;
+                dateClass.year = year;
             } else throw new TimeTravelling();
         } else throw new InvalidDate();
     }
