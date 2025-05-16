@@ -36,6 +36,22 @@ public class dateClass implements Date{
         return year;
     }
 
+    @Override
+    public boolean isAfter(dateClass currentDate) {
+        if(currentDate != null) {
+            if (year > currentDate.year) {
+                return true;
+            } else if (year == currentDate.year) {
+                if (month > currentDate.month) {
+                    return true;
+                } else if (month == currentDate.month) {
+                    return day > currentDate.day;
+                }
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public boolean isValid() {

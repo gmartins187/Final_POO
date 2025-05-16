@@ -32,4 +32,11 @@ public interface Date {
      * @return the year of the date
      */
     int getYear();
+
+    /**
+     * Checks if the date is after the current date
+     * @param currentDate the current date
+     * @return true if the date is after the current date, false otherwise
+     */
+    boolean isAfter(dateClass currentDate);
 }

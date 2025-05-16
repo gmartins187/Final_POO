@@ -15,12 +15,16 @@ public enum NotesTypes {
         NOTE_TYPE = noteType;
     }
 
-    public static Note CreateNote(String kind, String content, dateClass date, HashMap<String, Note> notes) {
+    public static Note createNonLiteratureNote(String kind, String content, dateClass date, HashMap<String, Note> notes) {
         if(kind.equalsIgnoreCase(LITERARY.NOTE_TYPE)){
             return new literaryNoteClass(content, date, notes);
         } else if(kind.equalsIgnoreCase(PERMANENT.NOTE_TYPE)){
             return new permanentNoteClass(content, date, notes);
         }
         else return null;
+    }
+
+    public static Note createLiteratureNote(String kind, String content, dateClass date, HashMap<String, Note> notes, String workTitle, String authorName, dateClass pubDate, String quote, String url) {
+        return new literaryNoteClass(content, date, notes, workTitle, authorName, pubDate, quote, url);
     }
 }

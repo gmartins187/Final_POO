@@ -20,10 +20,12 @@ public enum TerminalOutputs {
     CREATED(" created successfully with links to "),
     INVALID_DATE("Invalid date!"),
     TIME_TRAVEL("No time travelling!"),
+    TIME_TRAVEL_FUTURE("No time travelling to the future!"),
     ALREADY_EXISTS(" already exists!"),
     UNKNOWN("Unknown command. Type help to see available commands."),
     UNKNOWN_COMMAND("Unknown command!"),
-    BYE("Bye!");
+    BYE("Bye!"),
+    INVALID_DOC_DATE("Invalid document date!");
 
     public final String output;
 
