@@ -51,4 +51,12 @@ public class notesAppClass implements NotesApp{
             } else throw new InvalidDate();
         } else throw new ExistentID();
     }
+
+    @Override
+    public void getContent(String ID) throws DoesNotExist{
+        if(notes.containsKey(ID)){
+            Note note = notes.get(ID);
+            System.out.println(note.getContent() + " " + note.getLinks() + " links.");
+        } else throw new DoesNotExist();
+    }
 }

@@ -25,6 +25,7 @@ public enum TerminalOutputs {
     UNKNOWN("Unknown command. Type help to see available commands."),
     UNKNOWN_COMMAND("Unknown command!"),
     BYE("Bye!"),
+    DOES_NOT_EXIST("does not exist!"),
     INVALID_DOC_DATE("Invalid document date!");
 
     public final String output;

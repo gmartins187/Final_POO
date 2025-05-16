@@ -26,4 +26,10 @@ public interface NotesApp {
      * @param url url of the work
      */
     void addLiteratureNote(String kind, String id, String content, dateClass date, String workTitle, String authorName, dateClass pubDate, String quote, String url);
+
+    /**
+     * Gets the content of a note.
+     * @param id unique identifier of the note
+     */
+    void getContent(String id);
 }

@@ -3,7 +3,7 @@ import App.*;
 import Exceptions.*;
 import java.util.Scanner;
 
-//getLinks needs checking
+//tags not Working
 
 /**
  * @author Andre Amante 70945 a.amante@campus.fct.unl
@@ -63,6 +63,11 @@ public class Main {
         in.close();
     }
 
+    public static String readStringWithoutSpace(Scanner in){
+        String str = in.nextLine();
+        return str.trim();
+    }
+
     /**
      * This method is responsible for creating a note.
      * @param app the notes app
@@ -86,8 +91,8 @@ public class Main {
             int month = in.nextInt();
             int day = in.nextInt();
             in.nextLine();
-            ID = in.nextLine();
-            String content = in.nextLine();
+            ID = readStringWithoutSpace(in);
+            String content = readStringWithoutSpace(in);
 
             app.addNonLiteratureNote(kind, ID, content, new dateClass(day, month, year));
         } catch(InvalidDate e){
@@ -110,15 +115,15 @@ public class Main {
             int year = in.nextInt();
             int month = in.nextInt();
             int day = in.nextInt(); in.nextLine();
-            ID = in.nextLine();
-            String content = in.nextLine();
-            String workTitle = in.nextLine();
-            String authorName = in.nextLine();
+            ID = readStringWithoutSpace(in);
+            String content = readStringWithoutSpace(in);
+            String workTitle = readStringWithoutSpace(in);
+            String authorName = readStringWithoutSpace(in);
             int pubYear = in.nextInt();
             int pubMonth = in.nextInt();
             int pubDay = in.nextInt(); in.nextLine();
-            String url = in.nextLine();
-            String quote = in.nextLine();
+            String url = readStringWithoutSpace(in);
+            String quote = readStringWithoutSpace(in);
 
             dateClass date = new dateClass(day, month, year);
             dateClass pubDate = new dateClass(pubDay, pubMonth, pubYear);
@@ -132,6 +137,12 @@ public class Main {
     }
 
     private static void getContent(notesAppClass app, Scanner in) {
-
+        String ID = "";
+        try{
+            ID = readStringWithoutSpace(in);
+            app.getContent(ID);
+        } catch (DoesNotExist e){
+            System.out.println("Note " + ID + TerminalOutputs.DOES_NOT_EXIST.output);
+        }
     }
 }
