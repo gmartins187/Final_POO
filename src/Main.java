@@ -33,7 +33,10 @@ public class Main {
         Commands();
     }
 
-
+    /**
+     * This method is responsible for the command line interface of the application.
+     * It reads the commands from the user and executes the corresponding methods.
+     */
     private static void Commands() {
         Scanner in = new Scanner(System.in);
         notesAppClass app = new notesAppClass();
@@ -42,7 +45,7 @@ public class Main {
             switch (command){
                 case HELP -> System.out.println(TerminalOutputs.HELP.output);
                 case CREATE -> createNote(app, in);
-                //case READ -> getContent(app, in);
+                case READ -> getContent(app, in);
                 //case UPDATE ->
                 //case LINKS ->
                 //case TAG ->
@@ -60,24 +63,32 @@ public class Main {
         in.close();
     }
 
+    /**
+     * This method is responsible for creating a note.
+     * @param app the notes app
+     * @param in the scanner
+     */
     private static void createNote(notesAppClass app, Scanner in) {
         String kind = in.next();
-        if(!kind.equalsIgnoreCase(LITERATURE)) createNormalNote(app, in);
-        else createLiteratureNote(app, in);
+        if(!kind.equalsIgnoreCase(LITERATURE)) createNormalNote(app, in, kind);
+        else createLiteratureNote(app, in, kind);
     }
 
-
-
-    private static void createLiteratureNote(notesAppClass app, Scanner in) {
+    /**
+     * This method is responsible for creating a literature note.
+     * @param app the notes app
+     * @param in the scanner
+     */
+    private static void createNormalNote(notesAppClass app, Scanner in, String kind) {
         String ID = "";
         try {
-            String kind = in.next();
             int year = in.nextInt();
             int month = in.nextInt();
             int day = in.nextInt();
             in.nextLine();
             ID = in.nextLine();
             String content = in.nextLine();
+
             app.addNonLiteratureNote(kind, ID, content, new dateClass(day, month, year));
         } catch(InvalidDate e){
             System.out.println(TerminalOutputs.INVALID_DATE.output);
@@ -88,10 +99,14 @@ public class Main {
         }
     }
 
-    private static void createNormalNote(notesAppClass app, Scanner in) {
+    /**
+     * This method is responsible for creating a permanent or reference note.
+     * @param app the notes app
+     * @param in the scanner
+     */
+    private static void createLiteratureNote(notesAppClass app, Scanner in, String kind) {
         String ID = "";
         try {
-            String kind = in.next();
             int year = in.nextInt();
             int month = in.nextInt();
             int day = in.nextInt(); in.nextLine();
@@ -101,9 +116,9 @@ public class Main {
             String authorName = in.nextLine();
             int pubYear = in.nextInt();
             int pubMonth = in.nextInt();
-            int pubDay = in.nextInt();
-            String quote = in.nextLine();
+            int pubDay = in.nextInt(); in.nextLine();
             String url = in.nextLine();
+            String quote = in.nextLine();
 
             dateClass date = new dateClass(day, month, year);
             dateClass pubDate = new dateClass(pubDay, pubMonth, pubYear);
@@ -114,5 +129,9 @@ public class Main {
         } catch (TimeTravelling e) {System.out.println(TerminalOutputs.TIME_TRAVEL.output);
         } catch (ExistentID e) {System.out.println(ID + TerminalOutputs.ALREADY_EXISTS.output);
         } catch (TimeTravelToTheFuture e) {System.out.println(TerminalOutputs.TIME_TRAVEL_FUTURE.output);}
+    }
+
+    private static void getContent(notesAppClass app, Scanner in) {
+
     }
 }

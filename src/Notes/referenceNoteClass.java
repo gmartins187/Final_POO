@@ -1,10 +1,12 @@
 package Notes;
 
-public class referenceNoteClass implements ReferenceNote{
+import App.dateClass;
 
-    String ID;
+import java.util.HashMap;
 
-    public referenceNoteClass(String ID) {
-        this.ID = ID;
+public class referenceNoteClass extends noteAbstractClass implements ReferenceNote{
+
+    public referenceNoteClass(String content, dateClass date, HashMap<String, Note> notes) {
+        super(date, content, notes);
     }
 }

@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public enum NotesTypes {
 
-    LITERARY("literary"),
+    REFERENCE("reference"),
     PERMANENT("permanent");
 
     private final String NOTE_TYPE;
@@ -16,8 +16,8 @@ public enum NotesTypes {
     }
 
     public static Note createNonLiteratureNote(String kind, String content, dateClass date, HashMap<String, Note> notes) {
-        if(kind.equalsIgnoreCase(LITERARY.NOTE_TYPE)){
-            return new literaryNoteClass(content, date, notes);
+        if(kind.equalsIgnoreCase(REFERENCE.NOTE_TYPE)){
+            return new referenceNoteClass(content, date, notes);
         } else if(kind.equalsIgnoreCase(PERMANENT.NOTE_TYPE)){
             return new permanentNoteClass(content, date, notes);
         }
