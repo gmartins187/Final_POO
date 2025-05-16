@@ -15,8 +15,13 @@ public interface Note {
     String getContent();
 
     /**
-     * @param notes list of all notes
-     * @return kind of the note
+     * @return number of links in the note
      */
-    int getLinks(HashMap<String, Note> notes);
+    int getLinks();
+
+    /**
+     *
+     * @param notes
+     */
+    void addLinks(HashMap<String, Note> notes);
 }

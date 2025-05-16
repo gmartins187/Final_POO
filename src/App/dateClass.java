@@ -3,9 +3,9 @@ import Exceptions.*;
 
 public class dateClass implements Date{
 
-    private int day;
-    private int month;
-    private int year;
+    private final int day;
+    private final int month;
+    private final int year;
 
     /**
      * Constructor for dateClass

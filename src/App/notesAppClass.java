@@ -24,9 +24,9 @@ public class notesAppClass implements NotesApp{
         if(!notes.containsKey(ID)) {
             if(date.isValid()) {
                 if (!date.isBefore(currentDate)) {
-                    notes.put(ID, NotesTypes.CreateNote(kind, content, date));
+                    notes.put(ID, NotesTypes.CreateNote(kind, content, date, notes));
                     currentDate = new dateClass(date.getDay(), date.getMonth(), date.getYear());
-                    System.out.println("Note " + ID + TerminalOutputs.CREATED.output + notes.get(ID).getLinks(notes) + " notes.");
+                    System.out.println("Note " + ID + TerminalOutputs.CREATED.output + notes.get(ID).getLinks() + " notes.");
                 } else throw new TimeTravelling();
             } else throw new InvalidDate();
         } else throw new ExistentID();

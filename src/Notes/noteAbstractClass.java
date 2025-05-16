@@ -11,10 +11,30 @@ public abstract class noteAbstractClass implements Note{
 
     private final HashMap<String, Note> linkedNotes;
 
-    public noteAbstractClass(dateClass date, String content) {
+    public noteAbstractClass(dateClass date, String content, HashMap<String, Note> notes) {
         this.date = date;
         this.content = content;
         linkedNotes = new HashMap<>();
+        addLinks(notes);
+    }
+
+    public void addLinks(HashMap<String, Note> notes) {
+        StringBuilder tmpNote = new StringBuilder();
+        for (int i = 0; i < content.length(); i++) {
+            if (content.charAt(i) == '[') {
+                i++;
+                while (content.charAt(i) != ']') {
+                    tmpNote.append(content.charAt(i));
+                    i++;
+                }
+                i++;
+                if(!linkedNotes.containsKey(tmpNote.toString())){
+                    linkedNotes.put(tmpNote.toString(), notes.get(tmpNote.toString()));
+                    numOfLinks++;
+                }
+                tmpNote = new StringBuilder();
+            }
+        }
     }
 
     @Override
@@ -28,22 +48,7 @@ public abstract class noteAbstractClass implements Note{
     }
 
     @Override
-    public int getLinks(HashMap<String, Note> notes) {
-        StringBuilder tmpNote;
-        for (int i = 0; i < content.length(); i++) {
-            if (content.charAt(i) == '[') {
-                numOfLinks++;
-                i++;
-                tmpNote = new StringBuilder();
-                while (content.charAt(i) != ']') {
-                    tmpNote.append(content.charAt(i));
-                    i++;
-                }
-                if (!linkedNotes.containsKey(tmpNote.toString()))
-                    linkedNotes.put(tmpNote.toString(), notes.get(tmpNote.toString()));
-                else numOfLinks--;
-            }
-        }
+    public int getLinks() {
         return numOfLinks;
     }
 }
