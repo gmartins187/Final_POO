@@ -11,4 +11,20 @@ public class referenceNoteClass extends abstractNoteClass implements ReferenceNo
     public referenceNoteClass(String id) {
         super(id);
     }
+
+    public void insertNote(String noteId, NoteWithContent note){
+        notesTaggedOn.put(noteId, note);
+    }
+
+    @Override
+    public void iterateNotesTaggedOn() {
+        for(String noteName : notesTaggedOn.keySet()){
+            System.out.println(noteName);
+        }
+    }
+
+    @Override
+    public int getNumTags() {
+        return notesTaggedOn.size();
+    }
 }

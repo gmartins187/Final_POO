@@ -52,9 +52,9 @@ public class Main {
                 case LINKS -> listLinks(app, in);
                 case TAG -> tagNote(app, in);
                 case UNTAG -> untagNote(app,in);
-                //case TAGS ->
-                //case TAGGED ->
-                //case TRENDING ->
+                case TAGS -> listTags(app, in);
+                case TAGGED -> taggedOn(app, in);
+                case TRENDING -> trending(app, in);
                 //case NOTES ->
                 //case DELETE ->
                 default -> System.out.println(TerminalOutputs.UNKNOWN.output);
@@ -108,7 +108,7 @@ public class Main {
             System.out.println(TerminalOutputs.INVALID_DATE.output);
         } catch (TimeTravelling e) {
             System.out.println(TerminalOutputs.TIME_TRAVEL.output);
-        } catch (ExistentID e) {
+        } catch (ExistentProblem e) {
             System.out.println(ID + TerminalOutputs.ALREADY_EXISTS.output);
         }
     }
@@ -141,7 +141,7 @@ public class Main {
         } catch(InvalidDate e) {System.out.println(TerminalOutputs.INVALID_DATE.output);
         } catch (InvalidDocDate e){System.out.println(TerminalOutputs.INVALID_DOC_DATE.output);
         } catch (TimeTravelling e) {System.out.println(TerminalOutputs.TIME_TRAVEL.output);
-        } catch (ExistentID e) {System.out.println(ID + TerminalOutputs.ALREADY_EXISTS.output);
+        } catch (ExistentProblem e) {System.out.println(ID + TerminalOutputs.ALREADY_EXISTS.output);
         } catch (TimeTravelToTheFuture e) {System.out.println(TerminalOutputs.TIME_TRAVEL_FUTURE.output);}
     }
 
@@ -197,7 +197,7 @@ public class Main {
             app.listLinks(ID);
         } catch (DoesNotExist e){
             System.out.println("Note " + ID + TerminalOutputs.DOES_NOT_EXIST.output);
-        } catch (NoLinkedNotes e){
+        } catch (NoNotes e){
             System.out.println(TerminalOutputs.NO_LINKED_NOTES.output);
         }
     }
@@ -217,7 +217,7 @@ public class Main {
             app.newTagNote(Id, tagId);
         } catch (DoesNotExist e){
             System.out.println("Note " + Id + TerminalOutputs.DOES_NOT_EXIST.output);
-        } catch (ExistentID e){
+        } catch (ExistentProblem e){
             System.out.println("Note on " + Id + TerminalOutputs.ALREADY_TAGGED.output + tagId + "!");
         }
     }
@@ -237,8 +237,55 @@ public class Main {
             app.untagNote(id, tagId);
         } catch (DoesNotExist e){
             System.out.println("Note " + id + TerminalOutputs.DOES_NOT_EXIST.output);
-        } catch (ExistentID e){
+        } catch (ExistentProblem e){
             System.out.println("Note on " + id + TerminalOutputs.NOT_TAGGED.output + tagId + "!");
+        }
+    }
+
+    /**
+     * This method is responsible for listing all the tags in the notes app.
+     * @param app the notes app
+     * @param in the scanner
+     */
+    private static void listTags(notesAppClass app, Scanner in) {
+        String id = "";
+        try{
+            id = readStringWithoutSpace(in);
+
+            app.listTags(id);
+        } catch (DoesNotExist e){
+            System.out.println("Note " + id + TerminalOutputs.DOES_NOT_EXIST.output);
+        } catch (NoNotes e){
+            System.out.println(TerminalOutputs.NO_TAGS.output);
+        }
+    }
+
+    /**
+     * This method is responsible for listing all the notes tagged with a tag.
+     * @param app the notes app
+     * @param in the scanner
+     */
+    private static void taggedOn(notesAppClass app, Scanner in) {
+        String tagId = "";
+        try{
+            tagId = readStringWithoutSpace(in);
+
+            app.listTaggedOn(tagId);
+        } catch (ExistentProblem e){
+            System.out.println("Tag " + tagId + TerminalOutputs.NO_USE.output);
+        }
+    }
+
+    /**
+     * This method is responsible for listing all the trending notes.
+     * @param app the notes app
+     * @param in the scanner
+     */
+    private static void trending(notesAppClass app, Scanner in) {
+        try{
+            app.trending();
+        } catch (DoesNotExist e){
+            System.out.println(TerminalOutputs.NO_TAGS_DEFINED.output);
         }
     }
 }

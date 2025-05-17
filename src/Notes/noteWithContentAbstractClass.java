@@ -79,4 +79,16 @@ public abstract class noteWithContentAbstractClass extends abstractNoteClass imp
     public void removeTag(referenceNoteClass tag){
         tags.remove(tag.getId());
     }
+
+    @Override
+    public boolean hasTags(){
+        return !tags.isEmpty();
+    }
+
+    @Override
+    public void listTags(){
+        for(String name : tags.keySet()){
+            System.out.println(name);
+        }
+    }
 }

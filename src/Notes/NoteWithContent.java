@@ -57,4 +57,14 @@ public interface NoteWithContent {
      * @param tag the tag to remove
      */
     void removeTag(referenceNoteClass tag);
+
+    /**
+     * @return if the note has tags of the note
+     */
+    boolean hasTags();
+
+    /**
+     * Lists all the tags of the note
+     */
+    void listTags();
 }

@@ -1,5 +1,5 @@
 package App;
-import Exceptions.ExistentID;
+import Exceptions.ExistentProblem;
 
 public interface NotesApp {
 
@@ -9,7 +9,7 @@ public interface NotesApp {
      * @param id unique identifier of the note
      * @param content content of the note
      * @param date date of the note
-     * @throws ExistentID if the note already exists
+     * @throws ExistentProblem if the note already exists
      */
     void addPermanentNote(String kind, String id, String content, dateClass date);
 
@@ -60,4 +60,21 @@ public interface NotesApp {
      * @param tagId unique identifier of the tag
      */
     void untagNote(String id, String tagId);
+
+    /**
+     * Lists all the tags of a note.
+     * @param id unique identifier of the note
+     */
+    void listTags(String id);
+
+    /**
+     * Lists all the notes tagged with tag.
+     * @param tagId unique identifier of the tag
+     */
+    void listTaggedOn(String tagId);
+
+    /**
+     * Lists the most used tags.
+     */
+    void trending();
 }

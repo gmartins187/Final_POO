@@ -1,4 +1,5 @@
 package App;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import EnumClasses.*;
@@ -22,7 +23,7 @@ public class notesAppClass implements NotesApp{
     }
 
     @Override
-    public void addPermanentNote(String kind, String ID, String content, dateClass date) throws ExistentID, TimeTravelling{
+    public void addPermanentNote(String kind, String ID, String content, dateClass date) throws ExistentProblem, TimeTravelling{
         if(!notes.containsKey(ID)) {
             if(date.isValid()) {
                 if (!date.isBefore(currentDate)) {
@@ -33,12 +34,12 @@ public class notesAppClass implements NotesApp{
                     System.out.println("Note " + ID + TerminalOutputs.CREATED.output + notes.get(ID).getLinks() + " notes.");
                 } else throw new TimeTravelling();
             } else throw new InvalidDate();
-        } else throw new ExistentID();
+        } else throw new ExistentProblem();
     }
 
     @Override
     public void addLiteratureNote(String kind, String ID, String content, dateClass date, String workTitle, String authorName, dateClass pubDate, String quote, String url)
-            throws ExistentID, TimeTravelling, InvalidDate, InvalidDocDate, TimeTravelToTheFuture{
+            throws ExistentProblem, TimeTravelling, InvalidDate, InvalidDocDate, TimeTravelToTheFuture{
         if(!notes.containsKey(ID)) {
             if(date.isValid()) {
                 if(pubDate.isValid()){
@@ -53,7 +54,7 @@ public class notesAppClass implements NotesApp{
                     } else throw new TimeTravelling();
                 } else throw new InvalidDocDate();
             } else throw new InvalidDate();
-        } else throw new ExistentID();
+        } else throw new ExistentProblem();
     }
 
     @Override
@@ -82,18 +83,16 @@ public class notesAppClass implements NotesApp{
     }
 
     @Override
-    public void listLinks(String id) throws DoesNotExist, NoLinkedNotes{
+    public void listLinks(String id) throws DoesNotExist, NoNotes {
         if(notes.containsKey(id)){
             if (notes.get(id).getLinks() > 0){
-                NoteWithContent note = notes.get(id);
-
-                note.iterateLinks();
-            } else throw new NoLinkedNotes();
+                notes.get(id).iterateLinks();
+            } else throw new NoNotes();
         } else throw new DoesNotExist();
     }
 
     @Override
-    public void newTagNote(String id, String tagId) throws ExistentID, DoesNotExist{
+    public void newTagNote(String id, String tagId) throws ExistentProblem, DoesNotExist{
         if(notes.containsKey(id)){
             if(!notes.get(id).hasTag(tagId)){
                 referenceNoteClass tag = new referenceNoteClass(tagId);
@@ -101,13 +100,15 @@ public class notesAppClass implements NotesApp{
                 notes.get(id).addTag(tag);
                 tags.put(tagId, tag);
 
+                tag.insertNote(id, notes.get(id));
+
                 System.out.println(id + TerminalOutputs.TAGGED_WITH.output + tagId + "!");
-            } else throw new ExistentID();
+            } else throw new ExistentProblem();
         } else throw new DoesNotExist();
     }
 
     @Override
-    public void untagNote(String id, String tagId){
+    public void untagNote(String id, String tagId) throws ExistentProblem, DoesNotExist{
         if(notes.containsKey(id)){
             if(notes.get(id).hasTag(tagId)){
                 referenceNoteClass tag = tags.get(tagId);
@@ -115,7 +116,46 @@ public class notesAppClass implements NotesApp{
                 notes.get(id).removeTag(tag);
 
                 System.out.println("Note " + id + TerminalOutputs.REMOVED_TAG.output + tagId + "!");
-            } else throw new ExistentID();
+            } else throw new ExistentProblem();
         } else throw new DoesNotExist();
+    }
+
+    @Override
+    public void listTags(String id) throws DoesNotExist, NoNotes{
+        if(notes.containsKey(id)) {
+            if(notes.get(id).hasTags()) {
+                notes.get(id).listTags();
+            } else throw new NoNotes();
+        } else throw new DoesNotExist();
+    }
+
+    @Override
+    public void listTaggedOn(String tagId) throws ExistentProblem{
+        if(tags.containsKey(tagId)){
+            tags.get(tagId).iterateNotesTaggedOn();
+        } else throw new ExistentProblem();
+    }
+
+    @Override
+    public void trending() {
+        if(tags.isEmpty()) {
+            int max = 0;
+            int trendingTagsIndex = 0;
+            String[] trendingTags = new String[tags.size()];
+            for (referenceNoteClass tag : tags.values()) {
+                if (max < tag.getNumTags()) {
+                    max = tag.getNumTags();
+                }
+            }
+            for (String tag : tags.keySet()) {
+                if (tags.get(tag).getNumTags() == max) {
+                    trendingTags[trendingTagsIndex] = tag;
+                    trendingTagsIndex++;
+                }
+            }
+            for (int i = 0; i < trendingTagsIndex; i++) {
+                System.out.println(trendingTags[i]);
+            }
+        } else throw new NoTagsDefined();
     }
 }
