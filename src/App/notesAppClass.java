@@ -1,5 +1,4 @@
 package App;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import EnumClasses.*;
@@ -138,9 +137,9 @@ public class notesAppClass implements NotesApp{
 
     @Override
     public void trending() {
+        int max = 0;
+        int trendingTagsIndex = 0;
         if(tags.isEmpty()) {
-            int max = 0;
-            int trendingTagsIndex = 0;
             String[] trendingTags = new String[tags.size()];
             for (referenceNoteClass tag : tags.values()) {
                 if (max < tag.getNumTags()) {
@@ -157,5 +156,40 @@ public class notesAppClass implements NotesApp{
                 System.out.println(trendingTags[i]);
             }
         } else throw new NoTagsDefined();
+    }
+
+    @Override
+    public void remove(String id) throws DoesNotExist{
+        if(notes.containsKey(id) || tags.containsKey(id)){
+            if(notes.containsKey(id)){
+                removeNote(id);
+            } else {
+                removeTag(id);
+            }
+            System.out.println("Note " + id + TerminalOutputs.DELETED.output);
+        } else throw new DoesNotExist();
+    }
+
+    private void removeTag(String id) {
+        for(NoteWithContent note : notes.values()){
+            if(note.hasTag(id)){
+                note.removeTag(tags.get(id));
+            }
+        }
+        tags.remove(id);
+    }
+
+    private void removeNote(String id) {
+        for (NoteWithContent note : notes.values()) {
+            if(note.containsNote(id)){
+                note.removeLink(id);
+            }
+        }
+        for(ReferenceNote note : tags.values()){
+            if(note.containsNote(id)){
+                note.removeLink(id);
+            }
+        }
+        notes.remove(id);
     }
 }

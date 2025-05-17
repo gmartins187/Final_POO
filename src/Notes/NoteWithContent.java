@@ -67,4 +67,14 @@ public interface NoteWithContent {
      * Lists all the tags of the note
      */
     void listTags();
+
+    /**
+     * @return if contains a link to the note
+     */
+    boolean containsNote(String id);
+
+    /**
+     * remove note
+     */
+    void removeLink(String id);
 }

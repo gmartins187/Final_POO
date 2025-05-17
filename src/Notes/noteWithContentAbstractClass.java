@@ -91,4 +91,14 @@ public abstract class noteWithContentAbstractClass extends abstractNoteClass imp
             System.out.println(name);
         }
     }
+
+    @Override
+    public boolean containsNote(String id){
+        return linkedNotes.containsKey(id);
+    }
+
+    @Override
+    public void removeLink(String id){
+        linkedNotes.remove(id);
+    }
 }

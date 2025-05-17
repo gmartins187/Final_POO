@@ -1,7 +1,5 @@
 package Notes;
 
-import App.dateClass;
-
 import java.util.HashMap;
 
 public class referenceNoteClass extends abstractNoteClass implements ReferenceNote{
@@ -26,5 +24,15 @@ public class referenceNoteClass extends abstractNoteClass implements ReferenceNo
     @Override
     public int getNumTags() {
         return notesTaggedOn.size();
+    }
+
+    @Override
+    public boolean containsNote(String id) {
+        return notesTaggedOn.containsKey(id);
+    }
+
+    @Override
+    public void removeLink(String id) {
+        notesTaggedOn.remove(id);
     }
 }

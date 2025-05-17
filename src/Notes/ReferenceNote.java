@@ -18,4 +18,17 @@ public interface ReferenceNote {
      * Gets the number of notes that this tag is tagged on.
      */
     int getNumTags();
+
+    /**
+     * Checks if the note contains a specific note.
+     * @param id the id of the note
+     * @return true if the note contains the note, false otherwise
+     */
+    boolean containsNote(String id);
+
+    /**
+     * Removes a link to a note.
+     * @param id the id of the note
+     */
+    void removeLink(String id);
 }

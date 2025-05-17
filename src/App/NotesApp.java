@@ -77,4 +77,10 @@ public interface NotesApp {
      * Lists the most used tags.
      */
     void trending();
+
+    /**
+     * removes a note.
+     * @param id unique identifier of the note
+     */
+    void remove(String id);
 }

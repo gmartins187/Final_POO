@@ -4,7 +4,7 @@ import Exceptions.*;
 
 import java.util.Scanner;
 
-//tags not Working
+
 
 /**
  * @author Andre Amante 70945 a.amante@campus.fct.unl
@@ -56,7 +56,7 @@ public class Main {
                 case TAGGED -> taggedOn(app, in);
                 case TRENDING -> trending(app, in);
                 //case NOTES ->
-                //case DELETE ->
+                case DELETE -> removeNote(app, in);
                 default -> System.out.println(TerminalOutputs.UNKNOWN.output);
             }
             command = in.next();
@@ -286,6 +286,22 @@ public class Main {
             app.trending();
         } catch (DoesNotExist e){
             System.out.println(TerminalOutputs.NO_TAGS_DEFINED.output);
+        }
+    }
+
+    /**
+     * This method removes a note.
+     * @param app the notes app
+     * @param in the scanner
+     */
+    private static void removeNote(notesAppClass app, Scanner in) {
+        String id = "";
+        try{
+            id = readStringWithoutSpace(in);
+
+            app.remove(id);
+        } catch (DoesNotExist e){
+            System.out.println("Note " + id + TerminalOutputs.DOES_NOT_EXIST.output);
         }
     }
 }
