@@ -4,9 +4,9 @@ import App.dateClass;
 
 import java.util.HashMap;
 
-public class referenceNoteClass extends noteAbstractClass implements ReferenceNote{
+public class referenceNoteClass extends abstractNoteClass implements ReferenceNote{
 
-    public referenceNoteClass(String content, dateClass date, HashMap<String, Note> notes) {
-        super(date, content, notes);
+    public referenceNoteClass(String id, HashMap<String, NoteWithContent> notes) {
+        super(id);
     }
 }

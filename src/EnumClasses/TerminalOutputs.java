@@ -1,5 +1,6 @@
 package EnumClasses;
 
+
 public enum TerminalOutputs {
 
     HELP(""" 
@@ -26,7 +27,9 @@ public enum TerminalOutputs {
     UNKNOWN_COMMAND("Unknown command!"),
     BYE("Bye!"),
     DOES_NOT_EXIST("does not exist!"),
-    INVALID_DOC_DATE("Invalid document date!");
+    UPDATED(" updated. It now has "),
+    INVALID_DOC_DATE("Invalid document date!"),
+    NO_LINKED_NOTES("No linked notes.");
 
     public final String output;
 

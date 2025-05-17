@@ -1,3 +1,4 @@
+//CREATE NOTE
 create permanent 2025 05 05
 Robert Baratheon
 King Robert Baratheon was the seventeenth ruler of the Seven Kingdoms and the first king of the Baratheon dynasty.
@@ -25,7 +26,32 @@ George R. R. Martin
 https://en.wikipedia.org/wiki/AGameofThrones
 When you play the game of thrones, you win or you die.
 
+//GET CONTENT
 create permanent 2025 05 05
 Robert Baratheon
 King Robert Baratheon was the seventeenth ruler of the Seven Kingdoms and the first king of the Baratheon dynasty.
 read Robert Baratheon
+
+//UPDATE CONTENT
+create permanent 2025 05 05
+Robert Baratheon
+King Robert Baratheon was the seventeenth ruler of the Seven Kingdoms and the first king of the Baratheon dynasty.
+update Robert Baratheon
+2025 05 06
+King Robert Baratheon was the seventeenth ruler of the [[Seven Kingdoms]] and the first king of the [[Baratheon dynasty]]. The love of his life was [[Lyanna Stark]].
+
+//LINKS
+create permanent 2025 05 05
+Robert Baratheon
+King Robert Baratheon was the seventeenth ruler of the Seven Kingdoms and the first king of the Baratheon dynasty.
+create permanent 2025 05 05
+House Lannister
+[[Robert Baratheon]] married [[Cersei Lannister]] to strengthen an alliance with [[House Lannister]].
+create permanent 2025 05 06
+Robert Baratheon brothers
+[[Robert Baratheon]] had two brothers: [[Renly Baratheon]] and[[Stannis Baratheon]]. [[Stannis Baratheon]] declared himself Robert’s rightful heir and assassinated Renly using [[bloodmagic]].
+create permanent 2025 05 07
+Robert Baratheon marriage
+[[Robert Baratheon]] married [[Robert Baratheon brothers]] to strengthen an alliance with [[House Lannister]].
+links Robert Baratheon marriage
+

@@ -3,8 +3,9 @@ import App.*;
 
 import java.util.HashMap;
 
-public class literaryNoteClass extends noteAbstractClass implements LiteraryNote{
+public class literaryNoteClass extends noteWithContentAbstractClass implements LiteraryNote{
 
+    private dateClass date;
     private final String workTitle;
     private final String authorName;
     private final dateClass pubDate;
@@ -22,12 +23,19 @@ public class literaryNoteClass extends noteAbstractClass implements LiteraryNote
      * @param quote the quote from the work
      * @param url the url of the work
      */
-    public literaryNoteClass(String content, dateClass date, HashMap<String, Note> notes, String workTitle, String authorName, dateClass pubDate, String quote, String url) {
-        super(date, content, notes);
+    public literaryNoteClass(String id, String content, dateClass date, HashMap<String, NoteWithContent> notes, String workTitle, String authorName, dateClass pubDate, String quote, String url) {
+        super(id, content, notes);
+        computeLinks(notes, content);
+        this.date = date;
         this.workTitle = workTitle;
         this.authorName = authorName;
         this.pubDate = pubDate;
         this.quote = quote;
         this.url = url;
+    }
+
+    @Override
+    public void setDate(dateClass date){
+        this.date = date;
     }
 }

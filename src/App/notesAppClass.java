@@ -8,7 +8,7 @@ import Notes.*;
 
 public class notesAppClass implements NotesApp{
 
-    private final HashMap<String, Note> notes;
+    private final HashMap<String, NoteWithContent> notes;
     private dateClass currentDate;
 
 
@@ -20,12 +20,14 @@ public class notesAppClass implements NotesApp{
     }
 
     @Override
-    public void addNonLiteratureNote(String kind, String ID, String content, dateClass date) throws ExistentID, TimeTravelling{
+    public void addPermanentNote(String kind, String ID, String content, dateClass date) throws ExistentID, TimeTravelling{
         if(!notes.containsKey(ID)) {
             if(date.isValid()) {
                 if (!date.isBefore(currentDate)) {
-                    notes.put(ID, NotesTypes.createNonLiteratureNote(kind, content, date, notes));
+
+                    notes.put(ID, new permanentNoteClass(ID, content, date, notes));
                     currentDate = new dateClass(date.getDay(), date.getMonth(), date.getYear());
+
                     System.out.println("Note " + ID + TerminalOutputs.CREATED.output + notes.get(ID).getLinks() + " notes.");
                 } else throw new TimeTravelling();
             } else throw new InvalidDate();
@@ -41,7 +43,7 @@ public class notesAppClass implements NotesApp{
                     if (!date.isBefore(currentDate)) {
                         if (!pubDate.isAfter(currentDate)) {
 
-                            notes.put(ID, NotesTypes.createLiteratureNote(kind, content, date, notes, workTitle, authorName, pubDate, quote, url));
+                            notes.put(ID, new literaryNoteClass(ID, content, date, notes, workTitle, authorName, pubDate, quote, url));
                             currentDate = new dateClass(date.getDay(), date.getMonth(), date.getYear());
 
                             System.out.println("Note " + ID + TerminalOutputs.CREATED.output + notes.get(ID).getLinks() + " notes.");
@@ -55,8 +57,33 @@ public class notesAppClass implements NotesApp{
     @Override
     public void getContent(String ID) throws DoesNotExist{
         if(notes.containsKey(ID)){
-            Note note = notes.get(ID);
+            NoteWithContent note = notes.get(ID);
             System.out.println(note.getContent() + " " + note.getLinks() + " links.");
+        } else throw new DoesNotExist();
+    }
+
+    @Override
+    public void updateNote(String id, dateClass date, String content) throws TimeTravelling, InvalidDate, DoesNotExist{
+        if(date.isValid()){
+            if(notes.containsKey(id)){
+                if(date.isAfter(currentDate)){
+                    NoteWithContent note = notes.get(id);
+                    note.setContent(content, notes);
+                    note.setDate(date);
+                    currentDate = new dateClass(date.getDay(), date.getMonth(), date.getYear());
+                    System.out.println("Note " + id + TerminalOutputs.UPDATED.output + notes.get(id).getLinks() + " links.");
+                } else throw new TimeTravelling();
+            } else throw new DoesNotExist();
+        } else throw new InvalidDate();
+    }
+
+    @Override
+    public void listLinks(String id) throws DoesNotExist, NoLinkedNotes{
+        if(notes.containsKey(id)){
+            if (notes.get(id).getLinks() > 0){
+                NoteWithContent note = notes.get(id);
+                note.iterateLinks();
+            } else throw new NoLinkedNotes();
         } else throw new DoesNotExist();
     }
 }

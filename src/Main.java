@@ -1,6 +1,7 @@
 import EnumClasses.*;
 import App.*;
 import Exceptions.*;
+
 import java.util.Scanner;
 
 //tags not Working
@@ -27,6 +28,7 @@ public class Main {
     private static final String EXIT = "exit";
 
     private static final String LITERATURE = "literature";
+    private static final String PERMANENT = "permanent";
 
 
     public static void main(String[] args) {
@@ -46,8 +48,8 @@ public class Main {
                 case HELP -> System.out.println(TerminalOutputs.HELP.output);
                 case CREATE -> createNote(app, in);
                 case READ -> getContent(app, in);
-                //case UPDATE ->
-                //case LINKS ->
+                case UPDATE -> updateNote(app, in);
+                case LINKS -> listLinks(app, in);
                 //case TAG ->
                 //case UNTAG ->
                 //case TAGS ->
@@ -63,6 +65,12 @@ public class Main {
         in.close();
     }
 
+
+    /**
+     * This method is responsible for reading a string from the scanner and removing any leading or trailing spaces.
+     * @param in the scanner
+     * @return the string without leading or trailing spaces
+     */
     public static String readStringWithoutSpace(Scanner in){
         String str = in.nextLine();
         return str.trim();
@@ -75,8 +83,8 @@ public class Main {
      */
     private static void createNote(notesAppClass app, Scanner in) {
         String kind = in.next();
-        if(!kind.equalsIgnoreCase(LITERATURE)) createNormalNote(app, in, kind);
-        else createLiteratureNote(app, in, kind);
+        if(kind.equalsIgnoreCase(LITERATURE)) createLiteratureNote(app, in, kind);
+        else createPermanentNote(app, in, kind);
     }
 
     /**
@@ -84,7 +92,7 @@ public class Main {
      * @param app the notes app
      * @param in the scanner
      */
-    private static void createNormalNote(notesAppClass app, Scanner in, String kind) {
+    private static void createPermanentNote(notesAppClass app, Scanner in, String kind) {
         String ID = "";
         try {
             int year = in.nextInt();
@@ -92,9 +100,10 @@ public class Main {
             int day = in.nextInt();
             in.nextLine();
             ID = readStringWithoutSpace(in);
-            String content = readStringWithoutSpace(in);
+            String content = null;
+            content = readStringWithoutSpace(in);
 
-            app.addNonLiteratureNote(kind, ID, content, new dateClass(day, month, year));
+            app.addPermanentNote(kind, ID, content, new dateClass(day, month, year));
         } catch(InvalidDate e){
             System.out.println(TerminalOutputs.INVALID_DATE.output);
         } catch (TimeTravelling e) {
@@ -136,6 +145,11 @@ public class Main {
         } catch (TimeTravelToTheFuture e) {System.out.println(TerminalOutputs.TIME_TRAVEL_FUTURE.output);}
     }
 
+    /**
+     * This method is responsible for getting the content of a note.
+     * @param app the notes app
+     * @param in the scanner
+     */
     private static void getContent(notesAppClass app, Scanner in) {
         String ID = "";
         try{
@@ -143,6 +157,48 @@ public class Main {
             app.getContent(ID);
         } catch (DoesNotExist e){
             System.out.println("Note " + ID + TerminalOutputs.DOES_NOT_EXIST.output);
+        }
+    }
+
+    /**
+     * This method is responsible for updating a note.
+     * @param app the notes app
+     * @param in the scanner
+     */
+    private static void updateNote(notesAppClass app, Scanner in) {
+        String ID = "";
+        try{
+            ID = readStringWithoutSpace(in);
+            int year = in.nextInt();
+            int month = in.nextInt();
+            int day = in.nextInt(); in.nextLine();
+            String content = readStringWithoutSpace(in);
+
+            app.updateNote(ID, new dateClass(day, month, year), content);
+        } catch (InvalidDate e){
+            System.out.println(TerminalOutputs.INVALID_DATE.output);
+        } catch (DoesNotExist e){
+            System.out.println("Note " + ID + TerminalOutputs.DOES_NOT_EXIST.output);
+        } catch (TimeTravelling e){
+            System.out.println(TerminalOutputs.TIME_TRAVEL.output);
+        }
+    }
+
+    /**
+     * this method list all the links in the note
+     * @param app the notes app
+     * @param in the scanner
+     */
+    private static void listLinks(notesAppClass app, Scanner in){
+        String ID = "";
+        try{
+            ID = readStringWithoutSpace(in);
+
+            app.listLinks(ID);
+        } catch (DoesNotExist e){
+            System.out.println("Note " + ID + TerminalOutputs.DOES_NOT_EXIST.output);
+        } catch (NoLinkedNotes e){
+            System.out.println(TerminalOutputs.NO_LINKED_NOTES.output);
         }
     }
 }

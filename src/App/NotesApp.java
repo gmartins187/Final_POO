@@ -11,7 +11,7 @@ public interface NotesApp {
      * @param date date of the note
      * @throws ExistentID if the note already exists
      */
-    void addNonLiteratureNote(String kind, String id, String content, dateClass date);
+    void addPermanentNote(String kind, String id, String content, dateClass date);
 
     /**
      * Creates a new literature note.
@@ -32,4 +32,18 @@ public interface NotesApp {
      * @param id unique identifier of the note
      */
     void getContent(String id);
+
+    /**
+     * Updates a note content.
+     * @param id unique identifier of the note
+     * @param content content of the note
+     * @param dateClass date of the note
+     */
+    void updateNote(String id, dateClass dateClass, String content);
+
+    /**
+     * Lists all the links of a note.
+     * @param id unique identifier of the note
+     */
+    void listLinks(String id);
 }
