@@ -9,6 +9,7 @@ import Notes.*;
 public class notesAppClass implements NotesApp{
 
     private final HashMap<String, NoteWithContent> notes;
+    private final HashMap<String, referenceNoteClass> tags;
     private dateClass currentDate;
 
 
@@ -17,6 +18,7 @@ public class notesAppClass implements NotesApp{
      */
     public notesAppClass() {
         notes = new HashMap<>();
+        tags = new HashMap<>();
     }
 
     @Override
@@ -68,9 +70,11 @@ public class notesAppClass implements NotesApp{
             if(notes.containsKey(id)){
                 if(date.isAfter(currentDate)){
                     NoteWithContent note = notes.get(id);
+
                     note.setContent(content, notes);
                     note.setDate(date);
                     currentDate = new dateClass(date.getDay(), date.getMonth(), date.getYear());
+
                     System.out.println("Note " + id + TerminalOutputs.UPDATED.output + notes.get(id).getLinks() + " links.");
                 } else throw new TimeTravelling();
             } else throw new DoesNotExist();
@@ -82,8 +86,36 @@ public class notesAppClass implements NotesApp{
         if(notes.containsKey(id)){
             if (notes.get(id).getLinks() > 0){
                 NoteWithContent note = notes.get(id);
+
                 note.iterateLinks();
             } else throw new NoLinkedNotes();
+        } else throw new DoesNotExist();
+    }
+
+    @Override
+    public void newTagNote(String id, String tagId) throws ExistentID, DoesNotExist{
+        if(notes.containsKey(id)){
+            if(!notes.get(id).hasTag(tagId)){
+                referenceNoteClass tag = new referenceNoteClass(tagId);
+
+                notes.get(id).addTag(tag);
+                tags.put(tagId, tag);
+
+                System.out.println(id + TerminalOutputs.TAGGED_WITH.output + tagId + "!");
+            } else throw new ExistentID();
+        } else throw new DoesNotExist();
+    }
+
+    @Override
+    public void untagNote(String id, String tagId){
+        if(notes.containsKey(id)){
+            if(notes.get(id).hasTag(tagId)){
+                referenceNoteClass tag = tags.get(tagId);
+
+                notes.get(id).removeTag(tag);
+
+                System.out.println("Note " + id + TerminalOutputs.REMOVED_TAG.output + tagId + "!");
+            } else throw new ExistentID();
         } else throw new DoesNotExist();
     }
 }

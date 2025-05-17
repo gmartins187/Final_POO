@@ -29,6 +29,10 @@ public enum TerminalOutputs {
     DOES_NOT_EXIST("does not exist!"),
     UPDATED(" updated. It now has "),
     INVALID_DOC_DATE("Invalid document date!"),
+    ALREADY_TAGGED("is already tagged with"),
+    TAGGED_WITH(" tagged with "),
+    REMOVED_TAG(" no longer tagged with "),
+    NOT_TAGGED(" is not tagged with "),
     NO_LINKED_NOTES("No linked notes.");
 
     public final String output;

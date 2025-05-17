@@ -39,4 +39,22 @@ public interface NoteWithContent {
      * iterates the number of links in the note
      */
     void iterateLinks();
+
+    /**
+     * @param tagId the tag id
+     * @return if the note has the tag
+     */
+    boolean hasTag(String tagId);
+
+    /**
+     * Adds a tag to the note
+     * @param referenceNoteClass the tag to add
+     */
+    void addTag(referenceNoteClass referenceNoteClass);
+
+    /**
+     * Removes a tag from the note
+     * @param tag the tag to remove
+     */
+    void removeTag(referenceNoteClass tag);
 }

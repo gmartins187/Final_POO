@@ -46,4 +46,18 @@ public interface NotesApp {
      * @param id unique identifier of the note
      */
     void listLinks(String id);
+
+    /**
+     * Tags a note.
+     * @param id unique identifier of the note
+     * @param tagId unique identifier of the tag
+     */
+    void newTagNote(String id, String tagId);
+
+    /**
+     * Removes a tag from a note.
+     * @param id unique identifier of the note
+     * @param tagId unique identifier of the tag
+     */
+    void untagNote(String id, String tagId);
 }

@@ -6,7 +6,9 @@ import java.util.HashMap;
 
 public class referenceNoteClass extends abstractNoteClass implements ReferenceNote{
 
-    public referenceNoteClass(String id, HashMap<String, NoteWithContent> notes) {
+    HashMap<String, NoteWithContent> notesTaggedOn;
+
+    public referenceNoteClass(String id) {
         super(id);
     }
 }

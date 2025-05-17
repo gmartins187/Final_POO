@@ -43,15 +43,15 @@ public class Main {
         Scanner in = new Scanner(System.in);
         notesAppClass app = new notesAppClass();
         String command = in.next();
-        do{
+        while (!command.equalsIgnoreCase(EXIT)){
             switch (command){
                 case HELP -> System.out.println(TerminalOutputs.HELP.output);
                 case CREATE -> createNote(app, in);
                 case READ -> getContent(app, in);
                 case UPDATE -> updateNote(app, in);
                 case LINKS -> listLinks(app, in);
-                //case TAG ->
-                //case UNTAG ->
+                case TAG -> tagNote(app, in);
+                case UNTAG -> untagNote(app,in);
                 //case TAGS ->
                 //case TAGGED ->
                 //case TRENDING ->
@@ -60,8 +60,8 @@ public class Main {
                 default -> System.out.println(TerminalOutputs.UNKNOWN.output);
             }
             command = in.next();
-        } while (!command.equalsIgnoreCase(EXIT));
-        System.out.print(TerminalOutputs.BYE.output);
+        }
+        System.out.println(TerminalOutputs.BYE.output);
         in.close();
     }
 
@@ -199,6 +199,46 @@ public class Main {
             System.out.println("Note " + ID + TerminalOutputs.DOES_NOT_EXIST.output);
         } catch (NoLinkedNotes e){
             System.out.println(TerminalOutputs.NO_LINKED_NOTES.output);
+        }
+    }
+
+    /**
+     * This method is responsible for tagging a note.
+     * @param app the notes app
+     * @param in the scanner
+     */
+    private static void tagNote(notesAppClass app, Scanner in) {
+        String Id = "";
+        String tagId = "";
+        try{
+            Id = readStringWithoutSpace(in);in.next();
+            tagId = readStringWithoutSpace(in);
+
+            app.newTagNote(Id, tagId);
+        } catch (DoesNotExist e){
+            System.out.println("Note " + Id + TerminalOutputs.DOES_NOT_EXIST.output);
+        } catch (ExistentID e){
+            System.out.println("Note on " + Id + TerminalOutputs.ALREADY_TAGGED.output + tagId + "!");
+        }
+    }
+
+    /**
+     * This method is responsible for untagging a note.
+     * @param app the notes app
+     * @param in the scanner
+     */
+    private static void untagNote(notesAppClass app, Scanner in) {
+        String id = "";
+        String tagId = "";
+        try{
+            id = readStringWithoutSpace(in);
+            tagId = readStringWithoutSpace(in);
+
+            app.untagNote(id, tagId);
+        } catch (DoesNotExist e){
+            System.out.println("Note " + id + TerminalOutputs.DOES_NOT_EXIST.output);
+        } catch (ExistentID e){
+            System.out.println("Note on " + id + TerminalOutputs.NOT_TAGGED.output + tagId + "!");
         }
     }
 }

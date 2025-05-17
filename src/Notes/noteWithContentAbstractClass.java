@@ -2,6 +2,7 @@ package Notes;
 
 import App.dateClass;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class noteWithContentAbstractClass extends abstractNoteClass implements NoteWithContent {
@@ -10,11 +11,13 @@ public abstract class noteWithContentAbstractClass extends abstractNoteClass imp
     private String content;
 
     private final HashMap<String, NoteWithContent> linkedNotes;
+    private final HashMap<String, referenceNoteClass> tags;
 
     public noteWithContentAbstractClass(String id, String content, HashMap<String, NoteWithContent> notes) {
         super(id);
         this.content = content;
         linkedNotes = new HashMap<>();
+        tags = new HashMap<>();
     }
 
 
@@ -60,5 +63,20 @@ public abstract class noteWithContentAbstractClass extends abstractNoteClass imp
     @Override
     public int getLinks() {
         return numOfLinks;
+    }
+
+    @Override
+    public boolean hasTag(String tagId){
+        return tags.containsKey(tagId);
+    }
+
+    @Override
+    public void addTag(referenceNoteClass referenceNoteClass){
+        tags.put(referenceNoteClass.getId(), referenceNoteClass);
+    }
+
+    @Override
+    public void removeTag(referenceNoteClass tag){
+        tags.remove(tag.getId());
     }
 }
