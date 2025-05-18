@@ -1,7 +1,6 @@
-import EnumClasses.*;
 import App.*;
+import EnumClasses.*;
 import Exceptions.*;
-
 import java.util.Scanner;
 
 
