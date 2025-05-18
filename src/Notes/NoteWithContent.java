@@ -16,12 +16,6 @@ public interface NoteWithContent {
      */
     void setContent(String content, HashMap<String, NoteWithContent> notes);
 
-    /**
-     * modifies the date
-     * @param date the date to set
-     */
-    void setDate(dateClass date);
-
 
     /**
      * @return number of links in the note
@@ -77,4 +71,10 @@ public interface NoteWithContent {
      * remove note
      */
     void removeLink(String id);
+
+    /**
+     * This method sets a new date
+     * @param date the new date set
+     */
+    void setDate(dateClass date);
 }

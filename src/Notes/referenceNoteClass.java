@@ -2,7 +2,7 @@ package Notes;
 
 import java.util.HashMap;
 
-public class referenceNoteClass extends abstractNoteClass implements ReferenceNote{
+public class referenceNoteClass extends noteAbstractClass implements ReferenceNote{
 
     HashMap<String, NoteWithContent> notesTaggedOn;
 

@@ -1,10 +1,10 @@
 package Notes;
 
-public abstract class abstractNoteClass implements Note{
+public abstract class noteAbstractClass implements Note{
 
     private final String id;
 
-    public abstractNoteClass(String id){
+    public noteAbstractClass(String id){
         this.id = id;
     }
 

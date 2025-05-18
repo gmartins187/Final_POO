@@ -1,11 +1,8 @@
 package Notes;
 
-import App.dateClass;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
-public abstract class noteWithContentAbstractClass extends abstractNoteClass implements NoteWithContent {
+public abstract class noteWithContentAbstractClass extends noteAbstractClass implements NoteWithContent {
 
     private int numOfLinks;
     private String content;
