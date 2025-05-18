@@ -3,7 +3,7 @@ import EnumClasses.*;
 import Exceptions.*;
 import java.util.Scanner;
 
-
+//Notes method is not done. 19/06 start testing to finish the project as soon as possible
 
 /**
  * @author Andre Amante 70945 a.amante@campus.fct.unl
