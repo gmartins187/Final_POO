@@ -52,6 +52,11 @@ public class dateClass implements Date{
         return false;
     }
 
+    @Override
+    public boolean isDateInBetween(dateClass startDate, dateClass endDate) {
+        return this.isAfter(startDate) && this.isBefore(endDate);
+    }
+
 
     @Override
     public boolean isValid() {

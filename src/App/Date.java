@@ -39,4 +39,12 @@ public interface Date {
      * @return true if the date is after the current date, false otherwise
      */
     boolean isAfter(dateClass currentDate);
+
+    /**
+     * is the date in between from the start date and the end date
+     * @param startDate the start date
+     * @param endDate the end date
+     * @return a bool that tells if it occurs in between these two dates
+     */
+    boolean isDateInBetween(dateClass startDate, dateClass endDate);
 }

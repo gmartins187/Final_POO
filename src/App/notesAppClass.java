@@ -12,6 +12,9 @@ public class notesAppClass implements NotesApp{
     private final HashMap<String, referenceNoteClass> tags;
     private dateClass currentDate;
 
+    private static final String LITERATURE = "literature";
+    private static final String PERMANENT = "permanent";
+
 
     /**
      * Constructor for the notesAppClass. Creates a new HashMap to store the notes.
@@ -170,6 +173,29 @@ public class notesAppClass implements NotesApp{
         } else throw new DoesNotExist();
     }
 
+    @Override
+    public void getNotesFromTo(String kind, dateClass startDate, dateClass endDate)
+            throws UnknownKind, InvalidStartDate, InvalidEndDate, TimeTravelling {
+        if(!kind.equalsIgnoreCase(PERMANENT) && !kind.equalsIgnoreCase(LITERATURE)){
+            throw new UnknownKind();
+        } if(startDate.isValid()){
+            throw new InvalidStartDate();
+        } if(endDate.isValid()){
+            throw new InvalidEndDate();
+        } if (startDate.isAfter(endDate)){
+            throw new TimeTravelling();
+        } else {
+            for(String noteName : notes.keySet()){
+                if(notes.get(noteName).getDate().isDateInBetween(startDate, endDate))
+                    System.out.println(noteName);
+            }
+        }
+    }
+
+    /**
+     * removes a reference note from the system
+     * @param id the id of the reference note
+     */
     private void removeTag(String id) {
         for(NoteWithContent note : notes.values()){
             if(note.hasTag(id)){
@@ -179,6 +205,10 @@ public class notesAppClass implements NotesApp{
         tags.remove(id);
     }
 
+    /**
+     * removes a permanent or a literary note from the system
+     * @param id the id of the note to remove
+     */
     private void removeNote(String id) {
         for (NoteWithContent note : notes.values()) {
             if(note.containsNote(id)){

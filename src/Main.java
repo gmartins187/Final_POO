@@ -27,7 +27,6 @@ public class Main {
     private static final String EXIT = "exit";
 
     private static final String LITERATURE = "literature";
-    private static final String PERMANENT = "permanent";
 
 
     public static void main(String[] args) {
@@ -54,7 +53,7 @@ public class Main {
                 case TAGS -> listTags(app, in);
                 case TAGGED -> taggedOn(app, in);
                 case TRENDING -> trending(app, in);
-                //case NOTES ->
+                case NOTES -> timeSpaceNote(app, in);
                 case DELETE -> removeNote(app, in);
                 default -> System.out.println(TerminalOutputs.UNKNOWN.output);
             }
@@ -301,6 +300,31 @@ public class Main {
             app.remove(id);
         } catch (DoesNotExist e){
             System.out.println("Note " + id + TerminalOutputs.DOES_NOT_EXIST.output);
+        }
+    }
+
+    private static void timeSpaceNote(notesAppClass app, Scanner in) {
+        try{
+            String kind = readStringWithoutSpace(in);
+            int startYear = in.nextInt();
+            int startMonth = in.nextInt();
+            int startDay = in.nextInt();
+            int endYear = in.nextInt();
+            int endMonth = in.nextInt();
+            int endDay  = in.nextInt();
+
+            dateClass startDate = new dateClass(startDay, startMonth, startYear);
+            dateClass endDate = new dateClass(endDay, endMonth, endYear);
+
+            app.getNotesFromTo(kind, startDate, endDate);
+        } catch (UnknownKind e){
+            System.out.println(TerminalOutputs.UNKNOWN_KIND.output);
+        } catch (InvalidStartDate e){
+            System.out.println(TerminalOutputs.INVALID_START.output);
+        } catch (InvalidEndDate e){
+            System.out.println(TerminalOutputs.INVALID_END.output);
+        } catch (TimeTravelling e){
+            System.out.println(TerminalOutputs.TIME_TRAVELLING_FROM_STAR.output);
         }
     }
 }

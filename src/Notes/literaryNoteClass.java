@@ -38,4 +38,9 @@ public class literaryNoteClass extends noteWithContentAbstractClass implements L
     public void setDate(dateClass date){
         this.date = date;
     }
+
+    @Override
+    public dateClass getDate() {
+        return date;
+    }
 }

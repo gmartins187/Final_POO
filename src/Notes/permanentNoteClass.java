@@ -29,4 +29,9 @@ public class permanentNoteClass extends noteWithContentAbstractClass implements 
         this.date = date;
         updateDates.addLast(date);
     }
+
+    @Override
+    public dateClass getDate() {
+        return date;
+    }
 }

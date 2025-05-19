@@ -83,4 +83,12 @@ public interface NotesApp {
      * @param id unique identifier of the note
      */
     void remove(String id);
+
+    /**
+     * This method gets all the notes from a specific kind last edited between to specific dates
+     * @param kind the kind of notes iterated
+     * @param startDate the start date in the period
+     * @param endDate the end date in the period
+     */
+    void getNotesFromTo(String kind, dateClass startDate, dateClass endDate);
 }

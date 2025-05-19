@@ -1,5 +1,7 @@
 package Notes;
 
+import App.dateClass;
+
 import java.util.HashMap;
 
 public abstract class noteWithContentAbstractClass extends noteAbstractClass implements NoteWithContent {

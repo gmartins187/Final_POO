@@ -77,4 +77,9 @@ public interface NoteWithContent {
      * @param date the new date set
      */
     void setDate(dateClass date);
+
+    /**
+     * @return the date from an instance
+     */
+    dateClass getDate();
 }
