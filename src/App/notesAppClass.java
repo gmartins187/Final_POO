@@ -25,38 +25,40 @@ public class notesAppClass implements NotesApp{
     }
 
     @Override
-    public void addPermanentNote(String kind, String ID, String content, dateClass date) throws ExistentProblem, TimeTravelling{
-        if(!notes.containsKey(ID)) {
-            if(date.isValid()) {
-                if (!date.isBefore(currentDate)) {
+    public void addPermanentNote(String kind, String ID, String content, dateClass date) throws ExistentProblem, TimeTravelling, InvalidDate{
+        if(notes.containsKey(ID)){
+            throw new ExistentProblem();
+        } if(!date.isValid()){
+            throw new InvalidDate();
+        } if (date.isBefore(currentDate)){
+            throw new TimeTravelling();
+        } else{
+            notes.put(ID, new permanentNoteClass(ID, content, date, notes));
+            currentDate = new dateClass(date.getDay(), date.getMonth(), date.getYear());
 
-                    notes.put(ID, new permanentNoteClass(ID, content, date, notes));
-                    currentDate = new dateClass(date.getDay(), date.getMonth(), date.getYear());
-
-                    System.out.println("Note " + ID + TerminalOutputs.CREATED.output + notes.get(ID).getLinks() + " notes.");
-                } else throw new TimeTravelling();
-            } else throw new InvalidDate();
-        } else throw new ExistentProblem();
+            System.out.println("Note " + ID + TerminalOutputs.CREATED.output + notes.get(ID).getLinks() + " notes.");
+        }
     }
 
     @Override
     public void addLiteratureNote(String kind, String ID, String content, dateClass date, String workTitle, String authorName, dateClass pubDate, String quote, String url)
             throws ExistentProblem, TimeTravelling, InvalidDate, InvalidDocDate, TimeTravelToTheFuture{
-        if(!notes.containsKey(ID)) {
-            if(date.isValid()) {
-                if(pubDate.isValid()){
-                    if (!date.isBefore(currentDate)) {
-                        if (!pubDate.isAfter(currentDate)) {
+        if(notes.containsKey(ID)){
+            throw new ExistentProblem();
+        } if(!date.isValid()) {
+            throw new InvalidDate();
+        } if(!pubDate.isValid()){
+            throw new InvalidDocDate();
+        } if (date.isBefore(currentDate)){
+            throw new TimeTravelling();
+        } if (pubDate.isAfter(currentDate)) {
+            throw new TimeTravelToTheFuture();
+        } else{
+            notes.put(ID, new literaryNoteClass(ID, content, date, notes, workTitle, authorName, pubDate, quote, url));
+            currentDate = new dateClass(date.getDay(), date.getMonth(), date.getYear());
 
-                            notes.put(ID, new literaryNoteClass(ID, content, date, notes, workTitle, authorName, pubDate, quote, url));
-                            currentDate = new dateClass(date.getDay(), date.getMonth(), date.getYear());
-
-                            System.out.println("Note " + ID + TerminalOutputs.CREATED.output + notes.get(ID).getLinks() + " notes.");
-                        } else throw new TimeTravelToTheFuture();
-                    } else throw new TimeTravelling();
-                } else throw new InvalidDocDate();
-            } else throw new InvalidDate();
-        } else throw new ExistentProblem();
+            System.out.println("Note " + ID + TerminalOutputs.CREATED.output + notes.get(ID).getLinks() + " notes.");
+        }
     }
 
     @Override
@@ -69,28 +71,32 @@ public class notesAppClass implements NotesApp{
 
     @Override
     public void updateNote(String id, dateClass date, String content) throws TimeTravelling, InvalidDate, DoesNotExist{
-        if(date.isValid()){
-            if(notes.containsKey(id)){
-                if(date.isAfter(currentDate)){
-                    NoteWithContent note = notes.get(id);
+        if(!date.isValid()){
+            throw new InvalidDate();
+        } if(!notes.containsKey(id)){
+            throw new DoesNotExist();
+        } if(date.isBefore(currentDate)){
+            throw new TimeTravelling();
+        } else {
+            NoteWithContent note = notes.get(id);
 
-                    note.setContent(content, notes);
-                    note.setDate(date);
-                    currentDate = new dateClass(date.getDay(), date.getMonth(), date.getYear());
+            note.setContent(content, notes);
+            note.setDate(date);
+            currentDate = new dateClass(date.getDay(), date.getMonth(), date.getYear());
 
-                    System.out.println("Note " + id + TerminalOutputs.UPDATED.output + notes.get(id).getLinks() + " links.");
-                } else throw new TimeTravelling();
-            } else throw new DoesNotExist();
-        } else throw new InvalidDate();
+            System.out.println("Note " + id + TerminalOutputs.UPDATED.output + notes.get(id).getLinks() + " links.");
+        }
     }
 
     @Override
     public void listLinks(String id) throws DoesNotExist, NoNotes {
-        if(notes.containsKey(id)){
-            if (notes.get(id).getLinks() > 0){
-                notes.get(id).iterateLinks();
-            } else throw new NoNotes();
-        } else throw new DoesNotExist();
+        if(!notes.containsKey(id)){
+            throw new DoesNotExist();
+        } if (notes.get(id).getLinks() == 0){
+            throw new NoNotes();
+        } else{
+            notes.get(id).iterateLinks();
+        }
     }
 
     @Override
@@ -141,22 +147,16 @@ public class notesAppClass implements NotesApp{
     @Override
     public void trending() {
         int max = 0;
-        int trendingTagsIndex = 0;
-        if(tags.isEmpty()) {
-            String[] trendingTags = new String[tags.size()];
-            for (referenceNoteClass tag : tags.values()) {
+        if(!tags.isEmpty()) {
+            for (ReferenceNote tag : tags.values()) {
                 if (max < tag.getNumTags()) {
                     max = tag.getNumTags();
                 }
             }
-            for (String tag : tags.keySet()) {
-                if (tags.get(tag).getNumTags() == max) {
-                    trendingTags[trendingTagsIndex] = tag;
-                    trendingTagsIndex++;
+            for (String tag : tags.keySet()){
+                if(max == tags.get(tag).getNumTags()){
+                    System.out.println(tag);
                 }
-            }
-            for (int i = 0; i < trendingTagsIndex; i++) {
-                System.out.println(trendingTags[i]);
             }
         } else throw new NoTagsDefined();
     }

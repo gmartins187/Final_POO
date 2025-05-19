@@ -3,7 +3,6 @@ import EnumClasses.*;
 import Exceptions.*;
 import java.util.Scanner;
 
-//Notes method is not done. 19/06 start testing to finish the project as soon as possible
 
 /**
  * @author Andre Amante 70945 a.amante@campus.fct.unl
@@ -40,7 +39,7 @@ public class Main {
     private static void Commands() {
         Scanner in = new Scanner(System.in);
         notesAppClass app = new notesAppClass();
-        String command = in.next();
+        String command = readCommand(in);
         while (!command.equalsIgnoreCase(EXIT)){
             switch (command){
                 case HELP -> System.out.println(TerminalOutputs.HELP.output);
@@ -52,17 +51,25 @@ public class Main {
                 case UNTAG -> untagNote(app,in);
                 case TAGS -> listTags(app, in);
                 case TAGGED -> taggedOn(app, in);
-                case TRENDING -> trending(app, in);
+                case TRENDING -> trending(app);
                 case NOTES -> timeSpaceNote(app, in);
                 case DELETE -> removeNote(app, in);
                 default -> System.out.println(TerminalOutputs.UNKNOWN.output);
             }
-            command = in.next();
+            command = readCommand(in);
         }
         System.out.println(TerminalOutputs.BYE.output);
         in.close();
     }
 
+    /**
+     * This method reads the next command in the notes app
+     * @param in the scanner that read the command
+     * @return return the command in string
+     */
+    public static String readCommand(Scanner in){
+        return in.next().toLowerCase();
+    }
 
     /**
      * This method is responsible for reading a string from the scanner and removing any leading or trailing spaces.
@@ -98,8 +105,7 @@ public class Main {
             int day = in.nextInt();
             in.nextLine();
             ID = readStringWithoutSpace(in);
-            String content = null;
-            content = readStringWithoutSpace(in);
+            String content = readStringWithoutSpace(in);
 
             app.addPermanentNote(kind, ID, content, new dateClass(day, month, year));
         } catch(InvalidDate e){
@@ -277,9 +283,8 @@ public class Main {
     /**
      * This method is responsible for listing all the trending notes.
      * @param app the notes app
-     * @param in the scanner
      */
-    private static void trending(notesAppClass app, Scanner in) {
+    private static void trending(notesAppClass app) {
         try{
             app.trending();
         } catch (DoesNotExist e){
