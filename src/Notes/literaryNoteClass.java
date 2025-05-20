@@ -1,14 +1,15 @@
 package Notes;
 import App.*;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 
 public class literaryNoteClass extends noteWithContentAbstractClass implements LiteraryNote{
 
-    private dateClass date;
+    private LocalDate date;
     private final String workTitle;
     private final String authorName;
-    private final dateClass pubDate;
+    private final LocalDate pubDate;
     private final String quote;
     private final String url;
 
@@ -23,7 +24,8 @@ public class literaryNoteClass extends noteWithContentAbstractClass implements L
      * @param quote the quote from the work
      * @param url the url of the work
      */
-    public literaryNoteClass(String id, String content, dateClass date, HashMap<String, NoteWithContent> notes, String workTitle, String authorName, dateClass pubDate, String quote, String url) {
+    public literaryNoteClass(String id, String content, LocalDate date, HashMap<String, NoteWithContent> notes,
+                             String workTitle, String authorName, LocalDate pubDate, String quote, String url) {
         super(id, content, notes);
         computeLinks(notes, content);
         this.date = date;
@@ -35,12 +37,17 @@ public class literaryNoteClass extends noteWithContentAbstractClass implements L
     }
 
     @Override
-    public void setDate(dateClass date){
+    public void setDate(LocalDate date){
         this.date = date;
     }
 
     @Override
-    public dateClass getDate() {
+    public LocalDate getDate() {
         return date;
+    }
+
+    @Override
+    public boolean isDateInBetween(LocalDate startDate, LocalDate endDate) {
+        return startDate.isBefore(this.date) && endDate.isAfter(this.date);
     }
 }

@@ -1,6 +1,6 @@
 package Notes;
 
-import App.dateClass;
+import java.time.LocalDate;
 
 public interface LiteraryNote {
 
@@ -8,5 +8,5 @@ public interface LiteraryNote {
      * modifies the date
      * @param date the date to set
      */
-    void setDate(dateClass date);
+    void setDate(LocalDate date);
 }

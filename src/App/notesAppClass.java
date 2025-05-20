@@ -1,16 +1,19 @@
 package App;
-import java.util.HashMap;
 
+import java.time.chrono.ChronoLocalDate;
+import java.util.HashMap;
+import java.time.LocalDate;
 import EnumClasses.*;
 import Exceptions.*;
 import Notes.*;
+
 
 
 public class notesAppClass implements NotesApp{
 
     private final HashMap<String, NoteWithContent> notes;
     private final HashMap<String, referenceNoteClass> tags;
-    private dateClass currentDate;
+    private LocalDate currentDate;
 
     private static final String LITERATURE = "literature";
     private static final String PERMANENT = "permanent";
@@ -25,37 +28,31 @@ public class notesAppClass implements NotesApp{
     }
 
     @Override
-    public void addPermanentNote(String kind, String ID, String content, dateClass date) throws ExistentProblem, TimeTravelling, InvalidDate{
+    public void addPermanentNote(String kind, String ID, String content, LocalDate date) throws ExistentProblem, TimeTravelling {
         if(notes.containsKey(ID)){
             throw new ExistentProblem();
-        } if(!date.isValid()){
-            throw new InvalidDate();
-        } if (date.isBefore(currentDate)){
+        }if(currentDate != null && date.isBefore(currentDate)){
             throw new TimeTravelling();
         } else{
             notes.put(ID, new permanentNoteClass(ID, content, date, notes));
-            currentDate = new dateClass(date.getDay(), date.getMonth(), date.getYear());
+            currentDate = date;
 
             System.out.println("Note " + ID + TerminalOutputs.CREATED.output + notes.get(ID).getLinks() + " notes.");
         }
     }
 
     @Override
-    public void addLiteratureNote(String kind, String ID, String content, dateClass date, String workTitle, String authorName, dateClass pubDate, String quote, String url)
-            throws ExistentProblem, TimeTravelling, InvalidDate, InvalidDocDate, TimeTravelToTheFuture{
+    public void addLiteratureNote(String kind, String ID, String content, LocalDate date, String workTitle, String authorName, LocalDate pubDate, String quote, String url)
+            throws ExistentProblem, TimeTravelling , TimeTravelToTheFuture{
         if(notes.containsKey(ID)){
             throw new ExistentProblem();
-        } if(!date.isValid()) {
-            throw new InvalidDate();
-        } if(!pubDate.isValid()){
-            throw new InvalidDocDate();
-        } if (date.isBefore(currentDate)){
+        } if (currentDate != null && date.isBefore(currentDate)){
             throw new TimeTravelling();
-        } if (pubDate.isAfter(currentDate)) {
+        } if (currentDate != null && pubDate.isAfter(currentDate)) {
             throw new TimeTravelToTheFuture();
         } else{
             notes.put(ID, new literaryNoteClass(ID, content, date, notes, workTitle, authorName, pubDate, quote, url));
-            currentDate = new dateClass(date.getDay(), date.getMonth(), date.getYear());
+            currentDate = date;
 
             System.out.println("Note " + ID + TerminalOutputs.CREATED.output + notes.get(ID).getLinks() + " notes.");
         }
@@ -65,15 +62,13 @@ public class notesAppClass implements NotesApp{
     public void getContent(String ID) throws DoesNotExist{
         if(notes.containsKey(ID)){
             NoteWithContent note = notes.get(ID);
-            System.out.println(note.getContent() + " " + note.getLinks() + " links.");
+            System.out.println(note.getContent() + " " + note.getLinks() + " links. " + note.getTags() + " tags.");
         } else throw new DoesNotExist();
     }
 
     @Override
-    public void updateNote(String id, dateClass date, String content) throws TimeTravelling, InvalidDate, DoesNotExist{
-        if(!date.isValid()){
-            throw new InvalidDate();
-        } if(!notes.containsKey(id)){
+    public void updateNote(String id, LocalDate date, String content) throws TimeTravelling, DoesNotExist{
+        if(!notes.containsKey(id)){
             throw new DoesNotExist();
         } if(date.isBefore(currentDate)){
             throw new TimeTravelling();
@@ -82,7 +77,7 @@ public class notesAppClass implements NotesApp{
 
             note.setContent(content, notes);
             note.setDate(date);
-            currentDate = new dateClass(date.getDay(), date.getMonth(), date.getYear());
+            currentDate = date;
 
             System.out.println("Note " + id + TerminalOutputs.UPDATED.output + notes.get(id).getLinks() + " links.");
         }
@@ -101,18 +96,20 @@ public class notesAppClass implements NotesApp{
 
     @Override
     public void newTagNote(String id, String tagId) throws ExistentProblem, DoesNotExist{
-        if(notes.containsKey(id)){
-            if(!notes.get(id).hasTag(tagId)){
-                referenceNoteClass tag = new referenceNoteClass(tagId);
+        if(!notes.containsKey(id)){
+            throw new DoesNotExist();
+        } if(notes.get(id).hasTag(tagId)){
+            throw new ExistentProblem();
+        } else{
+            referenceNoteClass tag = new referenceNoteClass(tagId);
 
-                notes.get(id).addTag(tag);
-                tags.put(tagId, tag);
+            notes.get(id).addTag(tag);
+            tags.put(tagId, tag);
 
-                tag.insertNote(id, notes.get(id));
+            tag.insertNote(id, notes.get(id));
 
-                System.out.println(id + TerminalOutputs.TAGGED_WITH.output + tagId + "!");
-            } else throw new ExistentProblem();
-        } else throw new DoesNotExist();
+            System.out.println(id + TerminalOutputs.TAGGED_WITH.output + tagId + "!");
+        }
     }
 
     @Override
@@ -174,19 +171,15 @@ public class notesAppClass implements NotesApp{
     }
 
     @Override
-    public void getNotesFromTo(String kind, dateClass startDate, dateClass endDate)
-            throws UnknownKind, InvalidStartDate, InvalidEndDate, TimeTravelling {
+    public void getNotesFromTo(String kind, LocalDate startDate, LocalDate endDate)
+            throws UnknownKind, TimeTravelling {
         if(!kind.equalsIgnoreCase(PERMANENT) && !kind.equalsIgnoreCase(LITERATURE)){
             throw new UnknownKind();
-        } if(startDate.isValid()){
-            throw new InvalidStartDate();
-        } if(endDate.isValid()){
-            throw new InvalidEndDate();
         } if (startDate.isAfter(endDate)){
             throw new TimeTravelling();
         } else {
             for(String noteName : notes.keySet()){
-                if(notes.get(noteName).getDate().isDateInBetween(startDate, endDate))
+                if(notes.get(noteName).isDateInBetween(startDate, endDate))
                     System.out.println(noteName);
             }
         }

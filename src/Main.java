@@ -1,6 +1,8 @@
 import App.*;
 import EnumClasses.*;
 import Exceptions.*;
+
+import java.time.*;
 import java.util.Scanner;
 
 
@@ -62,6 +64,7 @@ public class Main {
         in.close();
     }
 
+
     /**
      * This method reads the next command in the notes app
      * @param in the scanner that read the command
@@ -107,8 +110,8 @@ public class Main {
             ID = readStringWithoutSpace(in);
             String content = readStringWithoutSpace(in);
 
-            app.addPermanentNote(kind, ID, content, new dateClass(day, month, year));
-        } catch(InvalidDate e){
+            app.addPermanentNote(kind, ID, content, LocalDate.of(year, month, day));
+        } catch(DateTimeException e){
             System.out.println(TerminalOutputs.INVALID_DATE.output);
         } catch (TimeTravelling e) {
             System.out.println(TerminalOutputs.TIME_TRAVEL.output);
@@ -138,12 +141,19 @@ public class Main {
             String url = readStringWithoutSpace(in);
             String quote = readStringWithoutSpace(in);
 
-            dateClass date = new dateClass(day, month, year);
-            dateClass pubDate = new dateClass(pubDay, pubMonth, pubYear);
+            LocalDate date;
+            try {
+                date = LocalDate.of(year, month, day);
+            } catch (DateTimeException e) {
+                System.out.println(TerminalOutputs.INVALID_DATE.output); return;}
+
+            LocalDate pubDate;
+            try {
+                pubDate = LocalDate.of(pubYear, pubMonth, pubDay);
+            } catch (DateTimeException e) {
+                System.out.println(TerminalOutputs.INVALID_DOC_DATE.output); return;}
 
             app.addLiteratureNote(kind, ID, content, date, workTitle, authorName, pubDate, quote, url);
-        } catch(InvalidDate e) {System.out.println(TerminalOutputs.INVALID_DATE.output);
-        } catch (InvalidDocDate e){System.out.println(TerminalOutputs.INVALID_DOC_DATE.output);
         } catch (TimeTravelling e) {System.out.println(TerminalOutputs.TIME_TRAVEL.output);
         } catch (ExistentProblem e) {System.out.println(ID + TerminalOutputs.ALREADY_EXISTS.output);
         } catch (TimeTravelToTheFuture e) {System.out.println(TerminalOutputs.TIME_TRAVEL_FUTURE.output);}
@@ -178,8 +188,8 @@ public class Main {
             int day = in.nextInt(); in.nextLine();
             String content = readStringWithoutSpace(in);
 
-            app.updateNote(ID, new dateClass(day, month, year), content);
-        } catch (InvalidDate e){
+            app.updateNote(ID, LocalDate.of(year, month, day), content);
+        } catch (DateTimeException e){
             System.out.println(TerminalOutputs.INVALID_DATE.output);
         } catch (DoesNotExist e){
             System.out.println("Note " + ID + TerminalOutputs.DOES_NOT_EXIST.output);
@@ -311,23 +321,23 @@ public class Main {
     private static void timeSpaceNote(notesAppClass app, Scanner in) {
         try{
             String kind = readStringWithoutSpace(in);
-            int startYear = in.nextInt();
-            int startMonth = in.nextInt();
-            int startDay = in.nextInt();
-            int endYear = in.nextInt();
-            int endMonth = in.nextInt();
-            int endDay  = in.nextInt();
+            LocalDate startDate;
+            try{
+                startDate = LocalDate.of(in.nextInt(), in.nextInt(), in.nextInt());
+            } catch (DateTimeException e){
+                System.out.println(TerminalOutputs.INVALID_START.output);
+                return; }
 
-            dateClass startDate = new dateClass(startDay, startMonth, startYear);
-            dateClass endDate = new dateClass(endDay, endMonth, endYear);
+            LocalDate endDate;
+            try{
+                endDate = LocalDate.of(in.nextInt(), in.nextInt(), in.nextInt());
+            } catch (DateTimeException e){
+                System.out.println(TerminalOutputs.INVALID_END.output);
+                return; }
 
             app.getNotesFromTo(kind, startDate, endDate);
         } catch (UnknownKind e){
             System.out.println(TerminalOutputs.UNKNOWN_KIND.output);
-        } catch (InvalidStartDate e){
-            System.out.println(TerminalOutputs.INVALID_START.output);
-        } catch (InvalidEndDate e){
-            System.out.println(TerminalOutputs.INVALID_END.output);
         } catch (TimeTravelling e){
             System.out.println(TerminalOutputs.TIME_TRAVELLING_FROM_STAR.output);
         }

@@ -1,5 +1,8 @@
 package Notes;
-import App.dateClass;
+
+import com.sun.jdi.connect.IllegalConnectorArgumentsException;
+
+import java.time.LocalDate;
 import java.util.HashMap;
 
 public interface NoteWithContent {
@@ -76,10 +79,23 @@ public interface NoteWithContent {
      * This method sets a new date
      * @param date the new date set
      */
-    void setDate(dateClass date);
+    void setDate(LocalDate date);
 
     /**
      * @return the date from an instance
      */
-    dateClass getDate();
+    LocalDate getDate();
+
+    /**
+     * This method computes if the date of the note is after the start date and before the end date
+     * @param startDate the start date
+     * @param endDate the end date
+     * @return true if the date is in between
+     */
+    boolean isDateInBetween(LocalDate startDate, LocalDate endDate);
+
+    /**
+     * @return the number of tags
+     */
+    int getTags();
 }

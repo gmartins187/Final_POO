@@ -1,7 +1,5 @@
 package Notes;
 
-import App.dateClass;
-
 import java.util.HashMap;
 
 public abstract class noteWithContentAbstractClass extends noteAbstractClass implements NoteWithContent {
@@ -99,5 +97,10 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
     @Override
     public void removeLink(String id){
         linkedNotes.remove(id);
+    }
+
+    @Override
+    public int getTags(){
+        return tags.size();
     }
 }

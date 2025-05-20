@@ -1,6 +1,8 @@
 package App;
 import Exceptions.ExistentProblem;
 
+import java.time.LocalDate;
+
 public interface NotesApp {
 
     /**
@@ -11,7 +13,7 @@ public interface NotesApp {
      * @param date date of the note
      * @throws ExistentProblem if the note already exists
      */
-    void addPermanentNote(String kind, String id, String content, dateClass date);
+    void addPermanentNote(String kind, String id, String content, LocalDate date);
 
     /**
      * Creates a new literature note.
@@ -25,7 +27,7 @@ public interface NotesApp {
      * @param quote quote from the work
      * @param url url of the work
      */
-    void addLiteratureNote(String kind, String id, String content, dateClass date, String workTitle, String authorName, dateClass pubDate, String quote, String url);
+    void addLiteratureNote(String kind, String id, String content, LocalDate date, String workTitle, String authorName, LocalDate pubDate, String quote, String url);
 
     /**
      * Gets the content of a note.
@@ -39,7 +41,7 @@ public interface NotesApp {
      * @param content content of the note
      * @param dateClass date of the note
      */
-    void updateNote(String id, dateClass dateClass, String content);
+    void updateNote(String id, LocalDate dateClass, String content);
 
     /**
      * Lists all the links of a note.
@@ -90,5 +92,5 @@ public interface NotesApp {
      * @param startDate the start date in the period
      * @param endDate the end date in the period
      */
-    void getNotesFromTo(String kind, dateClass startDate, dateClass endDate);
+    void getNotesFromTo(String kind, LocalDate startDate, LocalDate endDate);
 }
