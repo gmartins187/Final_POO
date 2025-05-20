@@ -10,7 +10,12 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
     private final HashMap<String, NoteWithContent> linkedNotes;
     private final HashMap<String, referenceNoteClass> tags;
 
-    public noteWithContentAbstractClass(String id, String content, HashMap<String, NoteWithContent> notes) {
+    /**
+     * This method constructs a new note with content and other capacities
+     * @param id the id of the note
+     * @param content the content of the note
+     */
+    public noteWithContentAbstractClass(String id, String content) {
         super(id);
         this.content = content;
         linkedNotes = new HashMap<>();
@@ -52,7 +57,7 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
     
     @Override
     public void iterateLinks(){
-        for(String name : linkedNotes.keySet()){;
+        for(String name : linkedNotes.keySet()){
             System.out.println(name);
         }
     }

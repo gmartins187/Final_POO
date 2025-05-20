@@ -1,5 +1,4 @@
 package Notes;
-import App.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;
