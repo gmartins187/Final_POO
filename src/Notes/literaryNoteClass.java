@@ -25,7 +25,7 @@ public class literaryNoteClass extends noteWithContentAbstractClass implements L
      */
     public literaryNoteClass(String id, String content, LocalDate date, HashMap<String, NoteWithContent> notes,
                              String workTitle, String authorName, LocalDate pubDate, String quote, String url) {
-        super(id, content, notes);
+        super(id, content);
         computeLinks(notes, content);
         this.date = date;
         this.workTitle = workTitle;

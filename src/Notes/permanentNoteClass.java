@@ -1,5 +1,4 @@
 package Notes;
-import App.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ public class permanentNoteClass extends noteWithContentAbstractClass implements 
      * @param notes the notes of the note
      */
     public permanentNoteClass(String id, String content, LocalDate date, HashMap<String, NoteWithContent> notes) {
-        super(id, content, notes);
+        super(id, content);
         this.date = date;
         computeLinks(notes, content);
         updateDates.addLast(date);
