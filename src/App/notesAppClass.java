@@ -61,7 +61,7 @@ public class notesAppClass implements NotesApp{
     public void getContent(String ID) throws DoesNotExist{
         if(notes.containsKey(ID)){
             NoteWithContent note = notes.get(ID);
-            System.out.println(note.getContent() + " " + note.getLinks() + " links. " + note.getTags() + " tags.");
+            System.out.println(ID + ": " + note.getContent() + " " + note.getLinks() + " links. " + note.getTags() + " tags.");
         } else throw new DoesNotExist();
     }
 

@@ -39,12 +39,19 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
     public void computeLinks(HashMap<String, NoteWithContent> notes, String content) {
         numOfLinks = 0;
         StringBuilder tmpNote = new StringBuilder();
+        String tmpContent;
         for (int i = 0; i < content.length(); i++) {
             if (content.charAt(i) == '[') {
                 i+=2;
                 while (content.charAt(i) != ']') {
                     tmpNote.append(content.charAt(i));
                     i++;
+                }
+                if(!notes.containsKey(tmpNote.toString())) {
+                    tmpNote.append('.');
+                    tmpContent = tmpNote.toString();
+                    tmpNote.deleteCharAt(tmpNote.length()-1);
+                    notes.put(tmpNote.toString(), new permanentNoteClass(tmpNote.toString(), tmpContent, this.getDate(), notes));
                 }
                 if(!linkedNotes.containsKey(tmpNote.toString())){
                     linkedNotes.put(tmpNote.toString(), notes.get(tmpNote.toString()));
