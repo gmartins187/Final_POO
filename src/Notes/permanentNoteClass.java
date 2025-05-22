@@ -1,13 +1,12 @@
 package Notes;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 
 public class permanentNoteClass extends noteWithContentAbstractClass implements PermanentNote{
 
-    private final ArrayList<LocalDate> updateDates = new ArrayList<>();
+    private final List<LocalDate> updateDates = new ArrayList<>();
     private LocalDate date;
 
     /**
