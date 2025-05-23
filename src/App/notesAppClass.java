@@ -89,7 +89,7 @@ public class notesAppClass implements NotesApp{
         } if (notes.get(id).getLinks() == 0){
             throw new NoNotes();
         } else{
-            notes.get(id).iterateLinks();
+            notes.get(id).listLinks();
         }
     }
 

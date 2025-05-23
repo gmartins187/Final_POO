@@ -23,6 +23,7 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
     }
 
 
+
     @Override
     public void setContent(String content, HashMap<String, NoteWithContent> notes){
         this.content = content;
@@ -33,7 +34,6 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
     public String getContent() {
         return content;
     }
-
 
     @Override
     public void computeLinks(HashMap<String, NoteWithContent> notes, String content) {
@@ -63,7 +63,7 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
     }
     
     @Override
-    public void iterateLinks(){
+    public void listLinks(){
         for(String name : linkedNotes.keySet()){
             System.out.println(name);
         }

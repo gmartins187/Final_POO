@@ -19,8 +19,8 @@ public class permanentNoteClass extends noteWithContentAbstractClass implements 
     public permanentNoteClass(String id, String content, LocalDate date, HashMap<String, NoteWithContent> notes) {
         super(id, content);
         this.date = date;
-        computeLinks(notes, content);
         updateDates.addLast(date);
+        computeLinks(notes, content);
     }
 
     @Override

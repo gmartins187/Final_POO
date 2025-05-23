@@ -1,7 +1,5 @@
 package Notes;
 
-import com.sun.jdi.connect.IllegalConnectorArgumentsException;
-
 import java.time.LocalDate;
 import java.util.HashMap;
 
@@ -35,7 +33,7 @@ public interface NoteWithContent {
     /**
      * iterates the number of links in the note
      */
-    void iterateLinks();
+    void listLinks();
 
     /**
      * @param tagId the tag id

@@ -1,7 +1,6 @@
 import App.*;
 import EnumClasses.*;
 import Exceptions.*;
-
 import java.time.*;
 import java.util.Scanner;
 
@@ -169,7 +168,7 @@ public class Main {
         try{
             ID = readStringWithoutSpace(in);
             app.getContent(ID);
-        } catch (DoesNotExist e){
+        } catch (DoesNotExist e) {
             System.out.println("Note " + ID + TerminalOutputs.DOES_NOT_EXIST.output);
         }
     }
@@ -303,21 +302,11 @@ public class Main {
     }
 
     /**
-     * This method removes a note.
+     * This method returns all the notes that were created in
+     * a respective time space (from a start date to an end date)
      * @param app the notes app
      * @param in the scanner
      */
-    private static void removeNote(notesAppClass app, Scanner in) {
-        String id = "";
-        try{
-            id = readStringWithoutSpace(in);
-
-            app.remove(id);
-        } catch (DoesNotExist e){
-            System.out.println("Note " + id + TerminalOutputs.DOES_NOT_EXIST.output);
-        }
-    }
-
     private static void timeSpaceNote(notesAppClass app, Scanner in) {
         try{
             String kind = readStringWithoutSpace(in);
@@ -326,7 +315,7 @@ public class Main {
                 startDate = LocalDate.of(in.nextInt(), in.nextInt(), in.nextInt());
             } catch (DateTimeException e){
                 System.out.println(TerminalOutputs.INVALID_START.output);
-                return; }
+                return;}
 
             LocalDate endDate;
             try{
@@ -340,6 +329,22 @@ public class Main {
             System.out.println(TerminalOutputs.UNKNOWN_KIND.output);
         } catch (TimeTravelling e){
             System.out.println(TerminalOutputs.TIME_TRAVELLING_FROM_STAR.output);
+        }
+    }
+
+    /**
+     * This method removes a note.
+     * @param app the notes app
+     * @param in the scanner
+     */
+    private static void removeNote(notesAppClass app, Scanner in) {
+        String id = "";
+        try{
+            id = readStringWithoutSpace(in);
+
+            app.remove(id);
+        } catch (DoesNotExist e){
+            System.out.println("Note " + id + TerminalOutputs.DOES_NOT_EXIST.output);
         }
     }
 }
