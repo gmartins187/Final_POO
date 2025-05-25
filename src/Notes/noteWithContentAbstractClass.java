@@ -1,13 +1,12 @@
 package Notes;
-
-import java.util.HashMap;
+import java.util.*;
 
 public abstract class noteWithContentAbstractClass extends noteAbstractClass implements NoteWithContent {
 
     private int numOfLinks;
     private String content;
 
-    private final HashMap<String, NoteWithContent> linkedNotes;
+    private final HashMap<Integer, NoteWithContent> linkedNotes;
     private final HashMap<String, referenceNoteClass> tags;
 
     /**
@@ -42,7 +41,7 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
         String tmpContent;
         for (int i = 0; i < content.length(); i++) {
             if (content.charAt(i) == '[') {
-                i+=2;
+                i +=2;
                 while (content.charAt(i) != ']') {
                     tmpNote.append(content.charAt(i));
                     i++;
@@ -53,19 +52,28 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
                     tmpNote.deleteCharAt(tmpNote.length()-1);
                     notes.put(tmpNote.toString(), new permanentNoteClass(tmpNote.toString(), tmpContent, this.getDate(), notes));
                 }
-                if(!linkedNotes.containsKey(tmpNote.toString())){
-                    linkedNotes.put(tmpNote.toString(), notes.get(tmpNote.toString()));
+                if (!linkedNotes.containsValue(notes.get(tmpNote.toString()))) {
+                    linkedNotes.put(numOfLinks, notes.get(tmpNote.toString()));
                     numOfLinks++;
                 }
                 tmpNote = new StringBuilder();
             }
         }
+        this.content = this.content.replace("[", "").replace("]", "");
     }
-    
+
+    @Override
+    public void remove(int i) {
+        StringBuilder tmpStr = new StringBuilder(content);
+        tmpStr.deleteCharAt(i);
+        content = tmpStr.toString();
+    }
+
     @Override
     public void listLinks(){
-        for(String name : linkedNotes.keySet()){
-            System.out.println(name);
+        List<Integer> keys = new ArrayList<>(linkedNotes.keySet());
+        for(Integer key : keys) {
+            System.out.println(linkedNotes.get(key).getId());
         }
     }
 
@@ -114,5 +122,10 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
     @Override
     public int getTags(){
         return tags.size();
+    }
+
+    @Override
+    public String getId(){
+        return super.getId();
     }
 }

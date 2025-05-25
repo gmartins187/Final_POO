@@ -28,10 +28,11 @@ public class notesAppClass implements NotesApp{
 
     @Override
     public void addPermanentNote(String kind, String ID, String content, LocalDate date) throws ExistentProblem, TimeTravelling {
-        if(notes.containsKey(ID)){
-            throw new ExistentProblem();
-        }if(currentDate != null && date.isBefore(currentDate)){
+        if(currentDate != null && date.isBefore(currentDate)){
             throw new TimeTravelling();
+        }
+        if(notes.containsKey(ID)) {
+            throw new ExistentProblem();
         } else{
             notes.put(ID, new permanentNoteClass(ID, content, date, notes));
             currentDate = date;
@@ -43,12 +44,13 @@ public class notesAppClass implements NotesApp{
     @Override
     public void addLiteratureNote(String kind, String ID, String content, LocalDate date, String workTitle, String authorName, LocalDate pubDate, String quote, String url)
             throws ExistentProblem, TimeTravelling , TimeTravelToTheFuture{
-        if(notes.containsKey(ID)){
-            throw new ExistentProblem();
-        } if (currentDate != null && date.isBefore(currentDate)){
+        if (currentDate != null && date.isBefore(currentDate)){
             throw new TimeTravelling();
         } if (currentDate != null && pubDate.isAfter(currentDate)) {
             throw new TimeTravelToTheFuture();
+        }
+        if(notes.containsKey(ID)){
+            throw new ExistentProblem();
         } else{
             notes.put(ID, new literaryNoteClass(ID, content, date, notes, workTitle, authorName, pubDate, quote, url));
             currentDate = date;

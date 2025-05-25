@@ -4,6 +4,7 @@ import Exceptions.*;
 import java.time.*;
 import java.util.Scanner;
 
+//remove subStrings from the content phrase
 
 /**
  * @author Andre Amante 70945 a.amante@campus.fct.unl
@@ -154,8 +155,8 @@ public class Main {
 
             app.addLiteratureNote(kind, ID, content, date, workTitle, authorName, pubDate, quote, url);
         } catch (TimeTravelling e) {System.out.println(TerminalOutputs.TIME_TRAVEL.output);
-        } catch (ExistentProblem e) {System.out.println(ID + TerminalOutputs.ALREADY_EXISTS.output);
-        } catch (TimeTravelToTheFuture e) {System.out.println(TerminalOutputs.TIME_TRAVEL_FUTURE.output);}
+        } catch (TimeTravelToTheFuture e) {System.out.println(TerminalOutputs.TIME_TRAVEL_FUTURE.output);
+        } catch (ExistentProblem e) {System.out.println(ID + TerminalOutputs.ALREADY_EXISTS.output);}
     }
 
     /**
