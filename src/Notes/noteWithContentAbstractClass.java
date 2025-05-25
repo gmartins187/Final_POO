@@ -111,12 +111,22 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
 
     @Override
     public boolean containsNote(String id){
-        return linkedNotes.containsKey(id);
+        for (NoteWithContent note : linkedNotes.values()) {
+            if (note.getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public void removeLink(String id){
-        linkedNotes.remove(id);
+        for (NoteWithContent note : linkedNotes.values()) {
+            if (note.getId().equals(id)) {
+                linkedNotes.values().remove(note);
+                break;
+            }
+        }
     }
 
     @Override
