@@ -1,4 +1,5 @@
 package Notes;
+
 import java.util.*;
 
 public abstract class noteWithContentAbstractClass extends noteAbstractClass implements NoteWithContent {
@@ -52,7 +53,7 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
                     tmpContent = tmpNote.toString();
                     tmpNote.deleteCharAt(tmpNote.length()-1);
                     notes.put(tmpNote.toString(),
-                            new permanentNoteClass(tmpNote.toString(), tmpContent, this.getDate(), notes, this.getUpdateRound()));
+                            new permanentNoteClass(tmpNote.toString(), tmpContent, this.getDate(), notes));
                 }
                 if (!linkedNotes.containsValue(notes.get(tmpNote.toString()))) {
                     linkedNotes.put(numOfLinks, notes.get(tmpNote.toString()));

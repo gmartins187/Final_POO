@@ -8,7 +8,7 @@ public interface PermanentNote extends NoteWithContent{
      * modifies the date and stores date history.
      * @param date the date to set
      */
-    void setDate(LocalDate date, int round);
+    void setDate(LocalDate date);
 
     /**
      * gets the date of the note

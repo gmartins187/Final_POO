@@ -1,5 +1,7 @@
 package Notes;
 
+import App.*;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -18,19 +20,21 @@ public class permanentNoteClass extends noteWithContentAbstractClass implements 
      * @param date the date of the note
      * @param notes the notes of the note
      */
-    public permanentNoteClass(String id, String content, LocalDate date, HashMap<String, NoteWithContent> notes, int round) {
+    public permanentNoteClass(String id, String content, LocalDate date, HashMap<String, NoteWithContent> notes) {
         super(id, content);
         this.date = date;
         updateDates.addLast(date);
-        this.theLastUpdateRound = round;
         computeLinks(notes, content);
+        this.theLastUpdateRound = notesAppClass.round;
+        notesAppClass.round++;
     }
 
     @Override
-    public void setDate(LocalDate date, int updateIndex) {
+    public void setDate(LocalDate date) {
         this.date = date;
         updateDates.addLast(date);
-        theLastUpdateRound = updateIndex;
+        theLastUpdateRound = notesAppClass.round;
+        notesAppClass.round++;
     }
 
     @Override

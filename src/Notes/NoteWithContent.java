@@ -77,7 +77,7 @@ public interface NoteWithContent extends Note{
      * This method sets a new date
      * @param date the new date set
      */
-    void setDate(LocalDate date, int round);
+    void setDate(LocalDate date);
 
     /**
      * @return the date from an instance

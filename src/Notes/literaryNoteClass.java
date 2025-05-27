@@ -1,5 +1,7 @@
 package Notes;
 
+import App.*;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 
@@ -26,7 +28,7 @@ public class literaryNoteClass extends noteWithContentAbstractClass implements L
      * @param url the url of the work
      */
     public literaryNoteClass(String id, String content, LocalDate date, HashMap<String, NoteWithContent> notes,
-                             String workTitle, String authorName, LocalDate pubDate, String quote, String url, int round) {
+                             String workTitle, String authorName, LocalDate pubDate, String quote, String url) {
         super(id, content);
         this.date = date;
         this.workTitle = workTitle;
@@ -35,13 +37,15 @@ public class literaryNoteClass extends noteWithContentAbstractClass implements L
         this.quote = quote;
         this.url = url;
         computeLinks(notes, content);
-        this.lastRoundDateUpdate = round;
+        this.lastRoundDateUpdate = notesAppClass.round;
+        notesAppClass.round++;
     }
 
     @Override
-    public void setDate(LocalDate date, int updateIndex) {
+    public void setDate(LocalDate date) {
         this.date = date;
-        lastRoundDateUpdate = updateIndex;
+        lastRoundDateUpdate = notesAppClass.round;
+        notesAppClass.round++;
     }
 
     @Override

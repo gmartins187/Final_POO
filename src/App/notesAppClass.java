@@ -11,11 +11,11 @@ import Notes.*;
 
 public class notesAppClass implements NotesApp{
 
+    public static int round = 0;
+
     private final HashMap<String, NoteWithContent> notes;
     private final HashMap<String, referenceNoteClass> tags;
     private LocalDate currentDate;
-
-    private static int round = 0;
 
     private static final String LITERATURE = "literature";
     private static final String PERMANENT = "permanent";
@@ -37,7 +37,7 @@ public class notesAppClass implements NotesApp{
         if(notes.containsKey(ID)) {
             throw new ExistentProblem();
         } else{
-            notes.put(ID, new permanentNoteClass(ID, content, date, notes, round++));
+            notes.put(ID, new permanentNoteClass(ID, content, date, notes));
             currentDate = date;
 
             System.out.println("Note " + ID + TerminalOutputs.CREATED.output + notes.get(ID).getLinks() + " notes.");
@@ -55,7 +55,7 @@ public class notesAppClass implements NotesApp{
         if(notes.containsKey(ID)){
             throw new ExistentProblem();
         } else{
-            notes.put(ID, new literaryNoteClass(ID, content, date, notes, workTitle, authorName, pubDate, quote, url, round++));
+            notes.put(ID, new literaryNoteClass(ID, content, date, notes, workTitle, authorName, pubDate, quote, url));
             currentDate = date;
 
             System.out.println("Note " + ID + TerminalOutputs.CREATED.output + notes.get(ID).getLinks() + " notes.");
@@ -79,7 +79,8 @@ public class notesAppClass implements NotesApp{
         } else {
             NoteWithContent note = notes.get(id);
 
-            note.setDate(date, round++);
+            note.setDate(date);
+
             note.setContent(content, notes);
 
             currentDate = date;
@@ -192,6 +193,7 @@ public class notesAppClass implements NotesApp{
         }
     }
 
+
     /**
      * This method gets all the dates in between the given start and end dates.
      * @param startDate the start date
@@ -246,7 +248,6 @@ public class notesAppClass implements NotesApp{
             if(note[i] != null) System.out.println(note[i].getId());
         }
     }
-
 
     /**
      * This method prints all the tags that are the most tagged in the system (trending).
