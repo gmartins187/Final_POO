@@ -66,13 +66,6 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
     }
 
     @Override
-    public void remove(int i) {
-        StringBuilder tmpStr = new StringBuilder(content);
-        tmpStr.deleteCharAt(i);
-        content = tmpStr.toString();
-    }
-
-    @Override
     public void listLinks(){
         List<Integer> keys = new ArrayList<>(linkedNotes.keySet());
         Collections.sort(keys);

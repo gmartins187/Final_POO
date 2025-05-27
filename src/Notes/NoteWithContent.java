@@ -98,12 +98,6 @@ public interface NoteWithContent extends Note{
     int getTags();
 
     /**
-     * Removes a certain Char from a String in a specified index
-     * @param i the index of the character to remove
-     */
-    void remove(int i);
-
-    /**
      * @return the id of the note
      */
     String getId();

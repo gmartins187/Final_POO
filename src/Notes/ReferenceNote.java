@@ -34,7 +34,6 @@ public interface ReferenceNote extends Note{
 
     /**
      * Gets the id of the reference note
-     * @return
      */
     int getTheRound();
 }
