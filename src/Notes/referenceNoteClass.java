@@ -5,21 +5,28 @@ import java.util.*;
 
 public class referenceNoteClass extends noteAbstractClass implements ReferenceNote{
 
-    Map<String, NoteWithContent> notesTaggedOn;
+    private final Map<String, NoteWithContent> notesTaggedOn;
+    private int roundNum;
+    private static int round;
 
     public referenceNoteClass(String id) {
         super(id);
         notesTaggedOn = new HashMap<>();
     }
 
+    @Override
     public void insertNote(String noteId, NoteWithContent note){
         notesTaggedOn.put(noteId, note);
+        round++;
+        roundNum = round;
     }
 
     @Override
     public void iterateNotesTaggedOn() {
-        for(String noteName : notesTaggedOn.keySet()){
-            System.out.println(noteName);
+        List<String> note = new ArrayList<>(notesTaggedOn.keySet());
+        Collections.sort(note);
+        for(String notes : note){
+            System.out.println(notes);
         }
     }
 
@@ -36,5 +43,14 @@ public class referenceNoteClass extends noteAbstractClass implements ReferenceNo
     @Override
     public void removeLink(String id) {
         notesTaggedOn.remove(id);
+        round++;
+        roundNum = round;
     }
+
+    @Override
+    public int getTheRound() {
+        return roundNum;
+    }
+
+
 }

@@ -31,4 +31,10 @@ public interface ReferenceNote {
      * @param id the id of the note
      */
     void removeLink(String id);
+
+    /**
+     * Gets the id of the reference note
+     * @return
+     */
+    int getTheRound();
 }

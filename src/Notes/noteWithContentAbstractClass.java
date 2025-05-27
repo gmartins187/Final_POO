@@ -132,6 +132,7 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
         for (NoteWithContent note : linkedNotes.values()) {
             if (note.getId().equals(id)) {
                 linkedNotes.values().remove(note);
+                numOfLinks--;
                 break;
             }
         }

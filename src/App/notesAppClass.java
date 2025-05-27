@@ -102,7 +102,10 @@ public class notesAppClass implements NotesApp{
         } if(notes.get(id).containsTag(tagId)){
             throw new ExistentProblem();
         } else{
-            referenceNoteClass tag = new referenceNoteClass(tagId);
+            referenceNoteClass tag;
+            if(!tags.containsKey(tagId))
+                tag = new referenceNoteClass(tagId);
+            else tag = tags.get(tagId);
 
             notes.get(id).addTag(tag);
             tags.put(tagId, tag);
@@ -120,8 +123,9 @@ public class notesAppClass implements NotesApp{
                 referenceNoteClass tag = tags.get(tagId);
 
                 notes.get(id).removeTag(tag);
+                tag.removeLink(id);
 
-                System.out.println("Note " + id + TerminalOutputs.REMOVED_TAG.output + tagId + "!");
+                System.out.println("Note " + id + TerminalOutputs.REMOVED_TAG.output + tagId + ".");
             } else throw new ExistentProblem();
         } else throw new DoesNotExist();
     }
@@ -142,22 +146,43 @@ public class notesAppClass implements NotesApp{
         } else throw new ExistentProblem();
     }
 
+
+
     @Override
     public void trending() throws NoTagsDefined{
         int max = 0;
+        referenceNoteClass[] tagsArray = new referenceNoteClass[tags.size()];
+        int tagsArrayIndex = 0;
         if(!tags.isEmpty()) {
             for (ReferenceNote tag : tags.values()) {
-                if (max < tag.getNumTags()) {
-                    max = tag.getNumTags();
-                }
+                if (max < tag.getNumTags()) max = tag.getNumTags();
             }
-            for (String tag : tags.keySet()){
-                if(max == tags.get(tag).getNumTags()){
-                    System.out.println(tag);
-                }
+            for (referenceNoteClass tag : tags.values()){
+                if(max == tag.getNumTags()) tagsArray[tagsArrayIndex++] = tag;
             }
+            printTrendingTags(tagsArray, tagsArrayIndex);
         } else throw new NoTagsDefined();
     }
+
+    private void printTrendingTags(referenceNoteClass[] tagsArray, int index) {
+        for(int i=0; i < tagsArray.length-1; i++){
+            for(int n=i+1; n < tagsArray.length; n++){
+                if(tagsArray[n] != null && tagsArray[i] != null) {
+                    if(tagsArray[i].getTheRound() > tagsArray[n].getTheRound()){
+                        referenceNoteClass temp = tagsArray[i];
+                        tagsArray[i] = tagsArray[n];
+                        tagsArray[n] = temp;
+                    }
+                }
+            }
+        }
+        for(int i=0; i < index; i++){
+            System.out.println(tagsArray[i].getId());
+        }
+    }
+
+
+
 
     @Override
     public void remove(String id) throws DoesNotExist{
