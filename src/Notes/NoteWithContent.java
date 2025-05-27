@@ -77,7 +77,7 @@ public interface NoteWithContent extends Note{
      * This method sets a new date
      * @param date the new date set
      */
-    void setDate(LocalDate date);
+    void setDate(LocalDate date, int round);
 
     /**
      * @return the date from an instance
@@ -90,7 +90,7 @@ public interface NoteWithContent extends Note{
      * @param endDate the end date
      * @return true if the date is in between
      */
-    boolean isDateInBetween(LocalDate startDate, LocalDate endDate);
+    boolean isInThe(LocalDate startDate, LocalDate endDate);
 
     /**
      * @return the number of tags
@@ -107,4 +107,10 @@ public interface NoteWithContent extends Note{
      * @return the id of the note
      */
     String getId();
+
+    /**
+     * Gets the last update round of the note
+     * @return the last update round
+     */
+    int getUpdateRound();
 }

@@ -2,6 +2,7 @@ package App;
 
 import java.util.HashMap;
 import java.time.LocalDate;
+
 import EnumClasses.*;
 import Exceptions.*;
 import Notes.*;
@@ -13,6 +14,8 @@ public class notesAppClass implements NotesApp{
     private final HashMap<String, NoteWithContent> notes;
     private final HashMap<String, referenceNoteClass> tags;
     private LocalDate currentDate;
+
+    private static int round = 0;
 
     private static final String LITERATURE = "literature";
     private static final String PERMANENT = "permanent";
@@ -34,7 +37,7 @@ public class notesAppClass implements NotesApp{
         if(notes.containsKey(ID)) {
             throw new ExistentProblem();
         } else{
-            notes.put(ID, new permanentNoteClass(ID, content, date, notes));
+            notes.put(ID, new permanentNoteClass(ID, content, date, notes, round++));
             currentDate = date;
 
             System.out.println("Note " + ID + TerminalOutputs.CREATED.output + notes.get(ID).getLinks() + " notes.");
@@ -52,7 +55,7 @@ public class notesAppClass implements NotesApp{
         if(notes.containsKey(ID)){
             throw new ExistentProblem();
         } else{
-            notes.put(ID, new literaryNoteClass(ID, content, date, notes, workTitle, authorName, pubDate, quote, url));
+            notes.put(ID, new literaryNoteClass(ID, content, date, notes, workTitle, authorName, pubDate, quote, url, round++));
             currentDate = date;
 
             System.out.println("Note " + ID + TerminalOutputs.CREATED.output + notes.get(ID).getLinks() + " notes.");
@@ -76,8 +79,9 @@ public class notesAppClass implements NotesApp{
         } else {
             NoteWithContent note = notes.get(id);
 
+            note.setDate(date, round++);
             note.setContent(content, notes);
-            note.setDate(date);
+
             currentDate = date;
 
             System.out.println("Note " + id + TerminalOutputs.UPDATED.output + notes.get(id).getLinks() + " links.");
@@ -146,8 +150,6 @@ public class notesAppClass implements NotesApp{
         } else throw new ExistentProblem();
     }
 
-
-
     @Override
     public void trending() throws NoTagsDefined{
         int max = 0;
@@ -163,26 +165,6 @@ public class notesAppClass implements NotesApp{
             printTrendingTags(tagsArray, tagsArrayIndex);
         } else throw new NoTagsDefined();
     }
-
-    private void printTrendingTags(referenceNoteClass[] tagsArray, int index) {
-        for(int i=0; i < tagsArray.length-1; i++){
-            for(int n=i+1; n < tagsArray.length; n++){
-                if(tagsArray[n] != null && tagsArray[i] != null) {
-                    if(tagsArray[i].getTheRound() > tagsArray[n].getTheRound()){
-                        referenceNoteClass temp = tagsArray[i];
-                        tagsArray[i] = tagsArray[n];
-                        tagsArray[n] = temp;
-                    }
-                }
-            }
-        }
-        for(int i=0; i < index; i++){
-            System.out.println(tagsArray[i].getId());
-        }
-    }
-
-
-
 
     @Override
     public void remove(String id) throws DoesNotExist{
@@ -203,14 +185,114 @@ public class notesAppClass implements NotesApp{
             throw new UnknownKind();
         } if (startDate.isAfter(endDate)){
             throw new TimeTravelling();
+        } if (!hasAnyNotesInBetween(startDate, endDate, kind)) {
+            throw new NoNotes();
         } else {
-            for(String noteName : notes.keySet()){
-                if(notes.get(noteName).isDateInBetween(startDate, endDate))
-                    System.out.println(noteName);
-            }
+            getTheNotes(startDate, endDate, kind);
         }
     }
 
+    /**
+     * This method gets all the dates in between the given start and end dates.
+     * @param startDate the start date
+     * @param endDate the end date
+     * @param kind the kind of note to print (permanent or literature)
+     */
+    private void getTheNotes(LocalDate startDate, LocalDate endDate, String kind) {
+        NoteWithContent[] note = new NoteWithContent[notes.size()];
+        int index = 0;
+        if(kind.equalsIgnoreCase(PERMANENT)){
+            for(NoteWithContent noteWithContent : notes.values()){
+                if(noteWithContent instanceof permanentNoteClass
+                        && noteWithContent.isInThe(startDate, endDate)){
+                    note[index++] = noteWithContent;
+                }
+            }
+        } else{
+            for(NoteWithContent noteWithContent : notes.values()){
+                if(noteWithContent instanceof LiteraryNote
+                        && noteWithContent.isInThe(startDate, endDate)){
+                    note[index++] = noteWithContent;
+                }
+            }
+        }
+        orderByDate(note, index);
+    }
+
+    /**
+     * This method orders the notes by date.
+     * @param note the notes to order
+     * @param index the index of the notes array
+     */
+    private void orderByDate(NoteWithContent[] note, int index) {
+        for(int i=0; i < index-1; i++){
+            for(int n=i+1; n < index; n++){
+                if(note[n] != null && note[i] != null) {
+                    if(note[i].getDate().isAfter(note[n].getDate())){
+                        NoteWithContent temp = note[i];
+                        note[i] = note[n];
+                        note[n] = temp;
+                    } else if (note[i].getDate().isEqual(note[n].getDate())){
+                        if(note[i].getUpdateRound() > note[n].getUpdateRound()){
+                            NoteWithContent temp = note[i];
+                            note[i] = note[n];
+                            note[n] = temp;
+                        }
+                    }
+                }
+            }
+        }
+        for(int i=0; i < index; i++){
+            if(note[i] != null) System.out.println(note[i].getId());
+        }
+    }
+
+
+    /**
+     * This method prints all the tags that are the most tagged in the system (trending).
+     * @param tagsArray the tags to that are trending
+     * @param index the index of the tags array
+     */
+    private void printTrendingTags(referenceNoteClass[] tagsArray, int index) {
+        for(int i=0; i < tagsArray.length-1; i++){
+            for(int n=i+1; n < tagsArray.length; n++){
+                if(tagsArray[n] != null && tagsArray[i] != null) {
+                    if(tagsArray[i].getTheRound() > tagsArray[n].getTheRound()){
+                        referenceNoteClass temp = tagsArray[i];
+                        tagsArray[i] = tagsArray[n];
+                        tagsArray[n] = temp;
+                    }
+                }
+            }
+        }
+        for(int i=0; i < index; i++){
+            System.out.println(tagsArray[i].getId());
+        }
+    }
+
+    /**
+     * This method checks if there are any notes in the system between the given dates.
+     * @param startDate the start date
+     * @param endDate the end date
+     * @return true if there are notes in the system between the given dates, false otherwise
+     */
+    private boolean hasAnyNotesInBetween(LocalDate startDate, LocalDate endDate, String kind) {
+        if(kind.equalsIgnoreCase(PERMANENT)) {
+            for (NoteWithContent note : notes.values()) {
+                if (note.isInThe(startDate, endDate) && note instanceof permanentNoteClass) {
+                    return true;
+                }
+            }
+        }
+        else if(kind.equalsIgnoreCase(LITERATURE)) {
+            for (NoteWithContent note : notes.values()) {
+                if (note.isInThe(startDate, endDate) && note instanceof LiteraryNote) {
+                    return true;
+                }
+            }
+        } else return false;
+        return false;
+    }
 
     /**
      * removes a reference note from the system

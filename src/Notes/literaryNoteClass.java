@@ -12,6 +12,8 @@ public class literaryNoteClass extends noteWithContentAbstractClass implements L
     private final String quote;
     private final String url;
 
+    private int lastRoundDateUpdate;
+
     /**
      * Constructor for the literaryNoteClass. Creates a new literary note.
      * @param content the content of the note
@@ -24,20 +26,22 @@ public class literaryNoteClass extends noteWithContentAbstractClass implements L
      * @param url the url of the work
      */
     public literaryNoteClass(String id, String content, LocalDate date, HashMap<String, NoteWithContent> notes,
-                             String workTitle, String authorName, LocalDate pubDate, String quote, String url) {
+                             String workTitle, String authorName, LocalDate pubDate, String quote, String url, int round) {
         super(id, content);
-        computeLinks(notes, content);
         this.date = date;
         this.workTitle = workTitle;
         this.authorName = authorName;
         this.pubDate = pubDate;
         this.quote = quote;
         this.url = url;
+        computeLinks(notes, content);
+        this.lastRoundDateUpdate = round;
     }
 
     @Override
-    public void setDate(LocalDate date){
+    public void setDate(LocalDate date, int updateIndex) {
         this.date = date;
+        lastRoundDateUpdate = updateIndex;
     }
 
     @Override
@@ -46,7 +50,13 @@ public class literaryNoteClass extends noteWithContentAbstractClass implements L
     }
 
     @Override
-    public boolean isDateInBetween(LocalDate startDate, LocalDate endDate) {
-        return startDate.isBefore(this.date) && endDate.isAfter(this.date);
+    public boolean isInThe(LocalDate startDate, LocalDate endDate) {
+        return startDate.isBefore(this.date) && endDate.isAfter(this.date) ||
+               startDate.isEqual(this.date) || endDate.isEqual(this.date);
+    }
+
+    @Override
+    public int getUpdateRound() {
+        return lastRoundDateUpdate;
     }
 }

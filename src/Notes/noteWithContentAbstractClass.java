@@ -6,7 +6,7 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
     private int numOfLinks;
     private String content;
 
-    private final HashMap<Integer, NoteWithContent> linkedNotes;
+    private HashMap<Integer, NoteWithContent> linkedNotes;
     private final HashMap<String, referenceNoteClass> tags;
 
     /**
@@ -26,7 +26,7 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
     @Override
     public void setContent(String content, HashMap<String, NoteWithContent> notes){
         this.content = content;
-        computeLinks(notes, content);
+        this.computeLinks(notes, content);
     }
 
     @Override
@@ -36,6 +36,7 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
 
     @Override
     public void computeLinks(HashMap<String, NoteWithContent> notes, String content) {
+        linkedNotes = new HashMap<>();
         numOfLinks = 0;
         StringBuilder tmpNote = new StringBuilder();
         String tmpContent;
@@ -50,7 +51,8 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
                     tmpNote.append('.');
                     tmpContent = tmpNote.toString();
                     tmpNote.deleteCharAt(tmpNote.length()-1);
-                    notes.put(tmpNote.toString(), new permanentNoteClass(tmpNote.toString(), tmpContent, this.getDate(), notes));
+                    notes.put(tmpNote.toString(),
+                            new permanentNoteClass(tmpNote.toString(), tmpContent, this.getDate(), notes, this.getUpdateRound()));
                 }
                 if (!linkedNotes.containsValue(notes.get(tmpNote.toString()))) {
                     linkedNotes.put(numOfLinks, notes.get(tmpNote.toString()));
