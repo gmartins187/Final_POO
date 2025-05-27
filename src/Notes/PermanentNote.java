@@ -2,7 +2,7 @@ package Notes;
 
 import java.time.LocalDate;
 
-public interface PermanentNote {
+public interface PermanentNote extends NoteWithContent{
 
     /**
      * modifies the date and stores date history.

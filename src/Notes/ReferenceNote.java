@@ -1,6 +1,6 @@
 package Notes;
 
-public interface ReferenceNote {
+public interface ReferenceNote extends Note{
 
     /**
      * Inserts a note which is tagged on.

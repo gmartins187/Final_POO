@@ -203,8 +203,6 @@ public class notesAppClass implements NotesApp{
             throw new UnknownKind();
         } if (startDate.isAfter(endDate)){
             throw new TimeTravelling();
-        } if(notes.isEmpty()){
-            throw new NoNotes();
         } else {
             for(String noteName : notes.keySet()){
                 if(notes.get(noteName).isDateInBetween(startDate, endDate))

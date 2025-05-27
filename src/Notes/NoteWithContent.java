@@ -3,7 +3,7 @@ package Notes;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-public interface NoteWithContent {
+public interface NoteWithContent extends Note{
 
     /**
      * @return the content of the note

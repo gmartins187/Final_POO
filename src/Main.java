@@ -318,13 +318,15 @@ public class Main {
         } catch (DateTimeException e){
             System.out.println(TerminalOutputs.INVALID_START.output);
             in.nextLine(); in.nextLine();
-            return;}
+            return;
+        }
         try{
             endDate = LocalDate.of(in.nextInt(), in.nextInt(), in.nextInt());
         } catch (DateTimeException e){
             System.out.println(TerminalOutputs.INVALID_END.output);
             in.nextLine();
-            return;}
+            return;
+        }
         try{
             app.getNotesFromTo(kind, startDate, endDate);
         } catch (UnknownKind e){
