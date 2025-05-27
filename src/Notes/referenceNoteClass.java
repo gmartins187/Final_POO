@@ -1,13 +1,15 @@
 package Notes;
 
-import java.util.HashMap;
+import java.util.*;
+
 
 public class referenceNoteClass extends noteAbstractClass implements ReferenceNote{
 
-    HashMap<String, NoteWithContent> notesTaggedOn;
+    Map<String, NoteWithContent> notesTaggedOn;
 
     public referenceNoteClass(String id) {
         super(id);
+        notesTaggedOn = new HashMap<>();
     }
 
     public void insertNote(String noteId, NoteWithContent note){

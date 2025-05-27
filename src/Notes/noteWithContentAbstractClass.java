@@ -72,6 +72,7 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
     @Override
     public void listLinks(){
         List<Integer> keys = new ArrayList<>(linkedNotes.keySet());
+        Collections.sort(keys);
         for(Integer key : keys) {
             System.out.println(linkedNotes.get(key).getId());
         }
@@ -83,18 +84,23 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
     }
 
     @Override
-    public boolean hasTag(String tagId){
+    public boolean containsTag(String tagId){
         return tags.containsKey(tagId);
     }
 
     @Override
-    public void addTag(referenceNoteClass referenceNoteClass){
-        tags.put(referenceNoteClass.getId(), referenceNoteClass);
+    public void addTag(referenceNoteClass note){
+        tags.put(note.getId(), note);
     }
 
     @Override
     public void removeTag(referenceNoteClass tag){
-        tags.remove(tag.getId());
+        for (referenceNoteClass note : tags.values()) {
+            if (note.equals(tag)) {
+                tags.values().remove(note);
+                break;
+            }
+        }
     }
 
     @Override
@@ -104,8 +110,10 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
 
     @Override
     public void listTags(){
-        for(String name : tags.keySet()){
-            System.out.println(name);
+        List<String> noteNames = new ArrayList<>(tags.keySet());
+        Collections.sort(noteNames);
+        for(String noteName : noteNames) {
+            System.out.println(noteName);
         }
     }
 

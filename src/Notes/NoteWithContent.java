@@ -39,7 +39,7 @@ public interface NoteWithContent {
      * @param tagId the tag id
      * @return if the note has the tag
      */
-    boolean hasTag(String tagId);
+    boolean containsTag(String tagId);
 
     /**
      * Adds a tag to the note

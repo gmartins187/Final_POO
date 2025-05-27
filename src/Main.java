@@ -225,14 +225,14 @@ public class Main {
         String Id = "";
         String tagId = "";
         try{
-            Id = readStringWithoutSpace(in);in.next();
+            Id = readStringWithoutSpace(in);
             tagId = readStringWithoutSpace(in);
 
             app.newTagNote(Id, tagId);
         } catch (DoesNotExist e){
             System.out.println("Note " + Id + TerminalOutputs.DOES_NOT_EXIST.output);
         } catch (ExistentProblem e){
-            System.out.println("Note on " + Id + TerminalOutputs.ALREADY_TAGGED.output + tagId + "!");
+            System.out.println("Note " + Id + TerminalOutputs.ALREADY_TAGGED.output + tagId + "!");
         }
     }
 
@@ -297,7 +297,7 @@ public class Main {
     private static void trending(notesAppClass app) {
         try{
             app.trending();
-        } catch (DoesNotExist e){
+        } catch (NoTagsDefined e){
             System.out.println(TerminalOutputs.NO_TAGS_DEFINED.output);
         }
     }
@@ -309,27 +309,30 @@ public class Main {
      * @param in the scanner
      */
     private static void timeSpaceNote(notesAppClass app, Scanner in) {
+        String kind = readStringWithoutSpace(in);
+        LocalDate startDate;
+        LocalDate endDate;
+
         try{
-            String kind = readStringWithoutSpace(in);
-            LocalDate startDate;
-            try{
-                startDate = LocalDate.of(in.nextInt(), in.nextInt(), in.nextInt());
-            } catch (DateTimeException e){
-                System.out.println(TerminalOutputs.INVALID_START.output);
-                return;}
-
-            LocalDate endDate;
-            try{
-                endDate = LocalDate.of(in.nextInt(), in.nextInt(), in.nextInt());
-            } catch (DateTimeException e){
-                System.out.println(TerminalOutputs.INVALID_END.output);
-                return; }
-
+            startDate = LocalDate.of(in.nextInt(), in.nextInt(), in.nextInt());
+        } catch (DateTimeException e){
+            System.out.println(TerminalOutputs.INVALID_START.output);
+            in.nextLine(); in.nextLine();
+            return;}
+        try{
+            endDate = LocalDate.of(in.nextInt(), in.nextInt(), in.nextInt());
+        } catch (DateTimeException e){
+            System.out.println(TerminalOutputs.INVALID_END.output);
+            in.nextLine();
+            return;}
+        try{
             app.getNotesFromTo(kind, startDate, endDate);
         } catch (UnknownKind e){
             System.out.println(TerminalOutputs.UNKNOWN_KIND.output);
         } catch (TimeTravelling e){
             System.out.println(TerminalOutputs.TIME_TRAVELLING_FROM_STAR.output);
+        } catch (NoNotes e){
+            System.out.println(TerminalOutputs.NO_NOTES_IN_THIS_TIME.output);
         }
     }
 

@@ -99,7 +99,7 @@ public class notesAppClass implements NotesApp{
     public void newTagNote(String id, String tagId) throws ExistentProblem, DoesNotExist{
         if(!notes.containsKey(id)){
             throw new DoesNotExist();
-        } if(notes.get(id).hasTag(tagId)){
+        } if(notes.get(id).containsTag(tagId)){
             throw new ExistentProblem();
         } else{
             referenceNoteClass tag = new referenceNoteClass(tagId);
@@ -109,14 +109,14 @@ public class notesAppClass implements NotesApp{
 
             tag.insertNote(id, notes.get(id));
 
-            System.out.println(id + TerminalOutputs.TAGGED_WITH.output + tagId + "!");
+            System.out.println(id + TerminalOutputs.TAGGED_WITH.output + tagId + ".");
         }
     }
 
     @Override
     public void untagNote(String id, String tagId) throws ExistentProblem, DoesNotExist{
         if(notes.containsKey(id)){
-            if(notes.get(id).hasTag(tagId)){
+            if(notes.get(id).containsTag(tagId)){
                 referenceNoteClass tag = tags.get(tagId);
 
                 notes.get(id).removeTag(tag);
@@ -143,7 +143,7 @@ public class notesAppClass implements NotesApp{
     }
 
     @Override
-    public void trending() {
+    public void trending() throws NoTagsDefined{
         int max = 0;
         if(!tags.isEmpty()) {
             for (ReferenceNote tag : tags.values()) {
@@ -173,11 +173,13 @@ public class notesAppClass implements NotesApp{
 
     @Override
     public void getNotesFromTo(String kind, LocalDate startDate, LocalDate endDate)
-            throws UnknownKind, TimeTravelling {
+            throws UnknownKind, TimeTravelling, NoNotes {
         if(!kind.equalsIgnoreCase(PERMANENT) && !kind.equalsIgnoreCase(LITERATURE)){
             throw new UnknownKind();
         } if (startDate.isAfter(endDate)){
             throw new TimeTravelling();
+        } if(notes.isEmpty()){
+            throw new NoNotes();
         } else {
             for(String noteName : notes.keySet()){
                 if(notes.get(noteName).isDateInBetween(startDate, endDate))
@@ -186,13 +188,14 @@ public class notesAppClass implements NotesApp{
         }
     }
 
+
     /**
      * removes a reference note from the system
      * @param id the id of the reference note
      */
     private void removeTag(String id) {
         for(NoteWithContent note : notes.values()){
-            if(note.hasTag(id)){
+            if(note.containsTag(id)){
                 note.removeTag(tags.get(id));
             }
         }
