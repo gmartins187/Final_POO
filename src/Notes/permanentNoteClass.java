@@ -23,7 +23,7 @@ public class permanentNoteClass extends noteWithContentAbstractClass implements 
     public permanentNoteClass(String id, String content, LocalDate date, HashMap<String, NoteWithContent> notes) {
         super(id, content);
         this.date = date;
-        updateDates.addLast(date);
+        //updateDates.addLast(date);
         computeLinks(notes, content);
         this.theLastUpdateRound = notesAppClass.round;
         notesAppClass.round++;
@@ -32,7 +32,7 @@ public class permanentNoteClass extends noteWithContentAbstractClass implements 
     @Override
     public void setDate(LocalDate date) {
         this.date = date;
-        updateDates.addLast(date);
+        //updateDates.addLast(date);
         theLastUpdateRound = notesAppClass.round;
         notesAppClass.round++;
     }

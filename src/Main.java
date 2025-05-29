@@ -4,8 +4,6 @@ import Exceptions.*;
 import java.time.*;
 import java.util.Scanner;
 
-//remove subStrings from the content phrase
-
 /**
  * @author Andre Amante 70945 a.amante@campus.fct.unl
  * @author Guilherme Martins 71003 gh.martins@campus.fct.unl
