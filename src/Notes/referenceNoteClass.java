@@ -9,6 +9,10 @@ public class referenceNoteClass extends noteAbstractClass implements ReferenceNo
     private int roundNum;
     private static int round;
 
+    /**
+     * Constructor for the referenceNoteClass. Creates a new reference note.
+     * @param id the id of the note
+     */
     public referenceNoteClass(String id) {
         super(id);
         notesTaggedOn = new HashMap<>();

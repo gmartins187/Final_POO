@@ -1,7 +1,11 @@
 import App.*;
-import EnumClasses.*;
+import App.notesAppClass;
+import EnumClasses.TerminalOutputs;
 import Exceptions.*;
-import java.time.*;
+
+
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 /**
@@ -38,7 +42,7 @@ public class Main {
      */
     private static void Commands() {
         Scanner in = new Scanner(System.in);
-        notesAppClass app = new notesAppClass();
+        NotesApp app = new notesAppClass();
         String command = readCommand(in);
         while (!command.equalsIgnoreCase(EXIT)){
             switch (command){
@@ -87,7 +91,7 @@ public class Main {
      * @param app the notes app
      * @param in the scanner
      */
-    private static void createNote(notesAppClass app, Scanner in) {
+    private static void createNote(NotesApp app, Scanner in) {
         String kind = in.next();
         if(kind.equalsIgnoreCase(LITERATURE)) createLiteratureNote(app, in, kind);
         else createPermanentNote(app, in, kind);
@@ -98,7 +102,7 @@ public class Main {
      * @param app the notes app
      * @param in the scanner
      */
-    private static void createPermanentNote(notesAppClass app, Scanner in, String kind) {
+    private static void createPermanentNote(NotesApp app, Scanner in, String kind) {
         String ID = "";
         try {
             int year = in.nextInt();
@@ -123,7 +127,7 @@ public class Main {
      * @param app the notes app
      * @param in the scanner
      */
-    private static void createLiteratureNote(notesAppClass app, Scanner in, String kind) {
+    private static void createLiteratureNote(NotesApp app, Scanner in, String kind) {
         String ID = "";
         try {
             int year = in.nextInt();
@@ -162,7 +166,7 @@ public class Main {
      * @param app the notes app
      * @param in the scanner
      */
-    private static void getContent(notesAppClass app, Scanner in) {
+    private static void getContent(NotesApp app, Scanner in) {
         String ID = "";
         try{
             ID = readStringWithoutSpace(in);
@@ -177,7 +181,7 @@ public class Main {
      * @param app the notes app
      * @param in the scanner
      */
-    private static void updateNote(notesAppClass app, Scanner in) {
+    private static void updateNote(NotesApp app, Scanner in) {
         String ID = "";
         try{
             ID = readStringWithoutSpace(in);
@@ -201,7 +205,7 @@ public class Main {
      * @param app the notes app
      * @param in the scanner
      */
-    private static void listLinks(notesAppClass app, Scanner in){
+    private static void listLinks(NotesApp app, Scanner in){
         String ID = "";
         try{
             ID = readStringWithoutSpace(in);
@@ -219,7 +223,7 @@ public class Main {
      * @param app the notes app
      * @param in the scanner
      */
-    private static void tagNote(notesAppClass app, Scanner in) {
+    private static void tagNote(NotesApp app, Scanner in) {
         String Id = "";
         String tagId = "";
         try{
@@ -239,7 +243,7 @@ public class Main {
      * @param app the notes app
      * @param in the scanner
      */
-    private static void untagNote(notesAppClass app, Scanner in) {
+    private static void untagNote(NotesApp app, Scanner in) {
         String id = "";
         String tagId = "";
         try{
@@ -259,7 +263,7 @@ public class Main {
      * @param app the notes app
      * @param in the scanner
      */
-    private static void listTags(notesAppClass app, Scanner in) {
+    private static void listTags(NotesApp app, Scanner in) {
         String id = "";
         try{
             id = readStringWithoutSpace(in);
@@ -277,7 +281,7 @@ public class Main {
      * @param app the notes app
      * @param in the scanner
      */
-    private static void taggedOn(notesAppClass app, Scanner in) {
+    private static void taggedOn(NotesApp app, Scanner in) {
         String tagId = "";
         try{
             tagId = readStringWithoutSpace(in);
@@ -292,7 +296,7 @@ public class Main {
      * This method is responsible for listing all the trending notes.
      * @param app the notes app
      */
-    private static void trending(notesAppClass app) {
+    private static void trending(NotesApp app) {
         try{
             app.trending();
         } catch (NoTagsDefined e){
@@ -306,7 +310,7 @@ public class Main {
      * @param app the notes app
      * @param in the scanner
      */
-    private static void timeSpaceNote(notesAppClass app, Scanner in) {
+    private static void timeSpaceNote(NotesApp app, Scanner in) {
         String kind = readStringWithoutSpace(in);
         LocalDate startDate;
         LocalDate endDate;
@@ -341,7 +345,7 @@ public class Main {
      * @param app the notes app
      * @param in the scanner
      */
-    private static void removeNote(notesAppClass app, Scanner in) {
+    private static void removeNote(NotesApp app, Scanner in) {
         String id = "";
         try{
             id = readStringWithoutSpace(in);

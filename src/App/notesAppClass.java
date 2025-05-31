@@ -1,9 +1,10 @@
 package App;
 
-import java.util.HashMap;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
-import EnumClasses.*;
+import EnumClasses.TerminalOutputs;
 import Exceptions.*;
 import Notes.*;
 
@@ -11,10 +12,10 @@ import Notes.*;
 
 public class notesAppClass implements NotesApp{
 
-    public static int round = 0;
+    private static int round = 0;
 
-    private final HashMap<String, NoteWithContent> notes;
-    private final HashMap<String, referenceNoteClass> tags;
+    private final Map<String, NoteWithContent> notes;
+    private final Map<String, ReferenceNote> tags;
     private LocalDate currentDate;
 
     private static final String LITERATURE = "literature";
@@ -107,7 +108,7 @@ public class notesAppClass implements NotesApp{
         } if(notes.get(id).containsTag(tagId)){
             throw new ExistentProblem();
         } else{
-            referenceNoteClass tag;
+            ReferenceNote tag;
             if(!tags.containsKey(tagId))
                 tag = new referenceNoteClass(tagId);
             else tag = tags.get(tagId);
@@ -125,7 +126,7 @@ public class notesAppClass implements NotesApp{
     public void untagNote(String id, String tagId) throws ExistentProblem, DoesNotExist{
         if(notes.containsKey(id)){
             if(notes.get(id).containsTag(tagId)){
-                referenceNoteClass tag = tags.get(tagId);
+                ReferenceNote tag = tags.get(tagId);
 
                 notes.get(id).removeTag(tag);
                 tag.removeLink(id);
@@ -154,13 +155,13 @@ public class notesAppClass implements NotesApp{
     @Override
     public void trending() throws NoTagsDefined{
         int max = 0;
-        referenceNoteClass[] tagsArray = new referenceNoteClass[tags.size()];
+        ReferenceNote[] tagsArray = new referenceNoteClass[tags.size()];
         int tagsArrayIndex = 0;
         if(!tags.isEmpty()) {
             for (ReferenceNote tag : tags.values()) {
                 if (max < tag.getNumTags()) max = tag.getNumTags();
             }
-            for (referenceNoteClass tag : tags.values()){
+            for (ReferenceNote tag : tags.values()){
                 if(max == tag.getNumTags()) tagsArray[tagsArrayIndex++] = tag;
             }
             printTrendingTags(tagsArray, tagsArrayIndex);
@@ -193,6 +194,19 @@ public class notesAppClass implements NotesApp{
         }
     }
 
+
+
+    //Private methods
+
+    /**
+     * This method gets the current round of the system
+     * and increments it by one.
+     * @return the current round number
+     */
+    public static int getRoundNumber() {
+        round++;
+        return round;
+    }
 
     /**
      * This method gets all the dates in between the given start and end dates.
@@ -254,12 +268,12 @@ public class notesAppClass implements NotesApp{
      * @param tagsArray the tags to that are trending
      * @param index the index of the tags array
      */
-    private void printTrendingTags(referenceNoteClass[] tagsArray, int index) {
+    private void printTrendingTags(ReferenceNote[] tagsArray, int index) {
         for(int i=0; i < tagsArray.length-1; i++){
             for(int n=i+1; n < tagsArray.length; n++){
                 if(tagsArray[n] != null && tagsArray[i] != null) {
                     if(tagsArray[i].getTheRound() > tagsArray[n].getTheRound()){
-                        referenceNoteClass temp = tagsArray[i];
+                        ReferenceNote temp = tagsArray[i];
                         tagsArray[i] = tagsArray[n];
                         tagsArray[n] = temp;
                     }

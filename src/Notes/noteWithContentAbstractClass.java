@@ -7,8 +7,8 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
     private int numOfLinks;
     private String content;
 
-    private HashMap<Integer, NoteWithContent> linkedNotes;
-    private final HashMap<String, referenceNoteClass> tags;
+    private Map<Integer, NoteWithContent> linkedNotes;
+    private final Map<String, ReferenceNote> tags;
 
     /**
      * This method constructs a new note with content and other capacities
@@ -23,9 +23,8 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
     }
 
 
-
     @Override
-    public void setContent(String content, HashMap<String, NoteWithContent> notes){
+    public void setContent(String content, Map<String, NoteWithContent> notes){
         this.content = content;
         this.computeLinks(notes, content);
     }
@@ -36,7 +35,7 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
     }
 
     @Override
-    public void computeLinks(HashMap<String, NoteWithContent> notes, String content) {
+    public void computeLinks(Map<String, NoteWithContent> notes, String content) {
         linkedNotes = new HashMap<>();
         numOfLinks = 0;
         StringBuilder tmpNote = new StringBuilder();
@@ -85,13 +84,13 @@ public abstract class noteWithContentAbstractClass extends noteAbstractClass imp
     }
 
     @Override
-    public void addTag(referenceNoteClass note){
+    public void addTag(ReferenceNote note){
         tags.put(note.getId(), note);
     }
 
     @Override
-    public void removeTag(referenceNoteClass tag){
-        for (referenceNoteClass note : tags.values()) {
+    public void removeTag(ReferenceNote tag){
+        for (ReferenceNote note : tags.values()) {
             if (note.equals(tag)) {
                 tags.values().remove(note);
                 break;

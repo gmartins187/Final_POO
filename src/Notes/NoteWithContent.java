@@ -2,6 +2,7 @@ package Notes;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.Map;
 
 public interface NoteWithContent extends Note{
 
@@ -15,7 +16,7 @@ public interface NoteWithContent extends Note{
      * @param content the content to set
      * @param notes the hashmap with all the notes to link
      */
-    void setContent(String content, HashMap<String, NoteWithContent> notes);
+    void setContent(String content, Map<String, NoteWithContent> notes);
 
 
     /**
@@ -28,7 +29,7 @@ public interface NoteWithContent extends Note{
      * @param content the content of the note
      * @param notes the hashmap with all the notes to link
      */
-    void computeLinks(HashMap<String, NoteWithContent> notes, String content);
+    void computeLinks(Map<String, NoteWithContent> notes, String content);
 
     /**
      * iterates the number of links in the note
@@ -45,13 +46,13 @@ public interface NoteWithContent extends Note{
      * Adds a tag to the note
      * @param referenceNoteClass the tag to add
      */
-    void addTag(referenceNoteClass referenceNoteClass);
+    void addTag(ReferenceNote referenceNoteClass);
 
     /**
      * Removes a tag from the note
      * @param tag the tag to remove
      */
-    void removeTag(referenceNoteClass tag);
+    void removeTag(ReferenceNote tag);
 
     /**
      * @return if the note has tags of the note

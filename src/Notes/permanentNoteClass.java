@@ -8,7 +8,7 @@ import java.util.*;
 
 public class permanentNoteClass extends noteWithContentAbstractClass implements PermanentNote{
 
-    private final List<LocalDate> updateDates = new ArrayList<>();
+    private final List<LocalDate> updateDates;
     private LocalDate date;
 
     private int theLastUpdateRound;
@@ -20,21 +20,20 @@ public class permanentNoteClass extends noteWithContentAbstractClass implements 
      * @param date the date of the note
      * @param notes the notes of the note
      */
-    public permanentNoteClass(String id, String content, LocalDate date, HashMap<String, NoteWithContent> notes) {
+    public permanentNoteClass(String id, String content, LocalDate date, Map<String, NoteWithContent> notes) {
         super(id, content);
+        updateDates = new ArrayList<>();
         this.date = date;
-        //updateDates.addLast(date);
+        updateDates.addLast(date);
         computeLinks(notes, content);
-        this.theLastUpdateRound = notesAppClass.round;
-        notesAppClass.round++;
+        this.theLastUpdateRound = notesAppClass.getRoundNumber();
     }
 
     @Override
     public void setDate(LocalDate date) {
         this.date = date;
-        //updateDates.addLast(date);
-        theLastUpdateRound = notesAppClass.round;
-        notesAppClass.round++;
+        updateDates.addLast(date);
+        theLastUpdateRound = getUpdateRound();
     }
 
     @Override
