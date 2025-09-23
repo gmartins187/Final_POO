@@ -34,52 +34,6 @@ O projeto encontra-se modularizado em diferentes pacotes, promovendo organizaç�
 
 ---
 
-## 💻 Como Executar
-### 1. Compilar:
-```bash
-javac Main.java App/*.java EnumClasses/*.java Exceptions/*.java
-```
-
-### 2. Executar:
-```bash
-java Main
-```
-
-Durante a execução, pode consultar os comandos disponíveis através de:
-```bash
-help
-```
-
----
-
-## 📂 Exemplos de Utilização
-### Criar uma nota permanente:
-```
-create permanent 2024 09 23 Note1 "Conteúdo da nota"
-```
-
-### Criar uma nota literária:
-```
-create literature 2024 09 23 Lit1 "Resumo" "Título da Obra" "Autor" 2010 01 01 "http://..." "Citação"
-```
-
-### Consultar conteúdo de uma nota:
-```
-read Note1
-```
-
-### Associar uma tag:
-```
-tag Note1 Programacao
-```
-
-### Listar notas entre duas datas:
-```
-notes permanent 2024 01 01 2024 12 31
-```
-
----
-
 ## 📌 Conclusão e Aprendizagens
 Este projeto representou uma **síntese do primeiro ano de programação** na FCT NOVA, consolidando os seguintes pontos:
 
